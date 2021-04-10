@@ -34,7 +34,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
     }
 
-    @GetMapping("/users/{id}")
+    @GetMapping("/{id}")
     public @ResponseBody ResponseEntity<String>
     getById(@PathVariable String id) {
         return new ResponseEntity<String>("GET Response : "
