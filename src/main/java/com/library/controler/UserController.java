@@ -1,6 +1,7 @@
 package com.library.controler;
 
 import com.library.models.User;
+import com.library.models.request.UserRegDTO;
 import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -28,9 +29,12 @@ public class UserController {
             return ResponseEntity.badRequest().build();
     }
     @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> register(@RequestBody User user) throws Exception{
-        userService.register(user);
-        return ResponseEntity.status(201).body(userService.readByUsername(user.getUsername()));
+    public ResponseEntity<User> register(@RequestBody UserRegDTO user) throws Exception{
+
+        if(user.getPatronUsername()==null ||user.getPassword()==null)
+            return ResponseEntity.unprocessableEntity().build();
+        userService.register(new User(user));
+        return ResponseEntity.status(201).body(userService.readByUsername(user.getPatronUsername()));
     }
 
 

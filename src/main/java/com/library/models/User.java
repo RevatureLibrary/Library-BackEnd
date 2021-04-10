@@ -1,5 +1,6 @@
 package com.library.models;
 
+import com.library.models.request.UserRegDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -37,4 +38,12 @@ public class User {
     private enums.AccountType accountType = enums.AccountType.PATRON;
 
 
+    public User (UserRegDTO regDTO){
+        this.username = regDTO.getPatronUsername();
+        this.password = regDTO.getPassword();
+        this.firstName = regDTO.getFirstName();
+        this.lastName = regDTO.getLastName();
+        this.email = regDTO.getEmail();
+        this.setAccountType(enums.AccountType.PATRON);
+    }
 }
