@@ -31,6 +31,6 @@ public class Fee {
     @ManyToOne
     private User user;
 
-    @ManyToOne
-    private Payment payment;
+    //@ManyToOne
+ //   private Payment payment;
 }

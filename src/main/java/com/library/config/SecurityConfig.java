@@ -17,9 +17,11 @@ import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
+import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
 @Configuration
 @EnableWebSecurity
+@EnableSwagger2
 public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private JwtUserDetailsService userDetailsService;
@@ -36,6 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity http) throws Exception {
         http.csrf().disable().authorizeRequests()
                 .antMatchers(HttpMethod.POST,"/authentication","/users").permitAll()
+                .antMatchers(HttpMethod.GET,"/v2/api-docs").permitAll()
+                .antMatchers("/v2/api-docs",
+                        "/v3/api-docs/**",
+                        "/configuration/**",
+                        "/swagger*/**",
+                        "/swagger-ui.html",
+                        "/webjars/**").permitAll()
             .anyRequest().authenticated()
                 .and()
             .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);

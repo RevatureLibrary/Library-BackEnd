@@ -5,6 +5,7 @@ import com.library.models.enums;
 import com.library.models.request.UserDTO;
 import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -33,6 +34,12 @@ public class UserController {
             return ResponseEntity.badRequest().build();
     }
 
+    @GetMapping("/users/{id}")
+    public @ResponseBody ResponseEntity<String>
+    getById(@PathVariable String id) {
+        return new ResponseEntity<String>("GET Response : "
+                + id, HttpStatus.OK);
+    }
 
     @PostMapping(consumes = "application/json", produces = "application/json")
     public ResponseEntity<User> register(@RequestBody UserDTO user) throws Exception{
