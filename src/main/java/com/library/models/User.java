@@ -1,6 +1,6 @@
 package com.library.models;
 
-import com.library.models.request.UserRegDTO;
+import com.library.models.request.UserDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.sql.Timestamp;
-import java.util.Date;
 
 @Entity
 @Data
@@ -38,12 +37,14 @@ public class User {
     private enums.AccountType accountType = enums.AccountType.PATRON;
 
 
-    public User (UserRegDTO regDTO){
-        this.username = regDTO.getPatronUsername();
+    public User (UserDTO regDTO){
+        this.username = regDTO.getUsername();
         this.password = regDTO.getPassword();
         this.firstName = regDTO.getFirstName();
         this.lastName = regDTO.getLastName();
         this.email = regDTO.getEmail();
         this.setAccountType(enums.AccountType.PATRON);
     }
+
+
 }

@@ -1,17 +1,14 @@
 package com.library.models.request;
 
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import lombok.NonNull;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class UserRegDTO {
-
-    private String patronUsername;
+public class UserDTO {
+    private String username;
 
     private String password;
 
@@ -20,4 +17,6 @@ public class UserRegDTO {
     private String lastName;
 
     private String email;
+
+    private boolean hire = false;
 }

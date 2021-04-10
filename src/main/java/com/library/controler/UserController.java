@@ -1,41 +1,53 @@
 package com.library.controler;
 
 import com.library.models.User;
-import com.library.models.request.UserRegDTO;
+import com.library.models.enums;
+import com.library.models.request.UserDTO;
 import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
-
 @RestController
 @RequestMapping(value = "/users")
 public class UserController {
-
+    SimpleGrantedAuthority authority;
 
     @Autowired
     UserService userService;
 
+    private SimpleGrantedAuthority getAuth()
+    {
+        return (SimpleGrantedAuthority) SecurityContextHolder.getContext().getAuthentication()
+                .getAuthorities().stream().findFirst().get();
+    }
+
     @GetMapping(produces = "application/json")
     public ResponseEntity<?> getAllUsers(){
-        if(SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ADMIN"))||
-                SecurityContextHolder.getContext().getAuthentication().getAuthorities().contains(new SimpleGrantedAuthority("ADMIN")))
+        authority= getAuth();
+        if(authority != enums.AccountType.PATRON.toAuth())
             return ResponseEntity.ok(userService.getAll());
         else
             return ResponseEntity.badRequest().build();
     }
-    @PostMapping(consumes = "application/json", produces = "application/json")
-    public ResponseEntity<User> register(@RequestBody UserRegDTO user) throws Exception{
 
-        if(user.getPatronUsername()==null ||user.getPassword()==null)
+
+    @PostMapping(consumes = "application/json", produces = "application/json")
+    public ResponseEntity<User> register(@RequestBody UserDTO user) throws Exception{
+
+        if(user.getUsername()==null ||user.getPassword()==null)
             return ResponseEntity.unprocessableEntity().build();
-        userService.register(new User(user));
-        return ResponseEntity.status(201).body(userService.readByUsername(user.getPatronUsername()));
+        if (user.isHire() &&
+                authority!= enums.AccountType.PATRON.toAuth())
+            userService.hire(user);
+        else
+            userService.register(user);
+        return ResponseEntity.status(201).body(userService.readByUsername(user.getUsername()));
     }
+
+
 
 
 

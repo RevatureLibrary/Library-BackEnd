@@ -92,7 +92,7 @@ public class HibernateConfig {
             user.setPassword("pass");
             user.setAccountType(enums.AccountType.ADMIN);
 //                user.setConfirmEmail(true);
-            userService.register(user);
+            userService.save(user);
             System.out.println("Admin created");
             System.out.println(user);
 //                logger.info("Users Seeded");
