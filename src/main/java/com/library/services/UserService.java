@@ -42,4 +42,8 @@ public class UserService {
         newU.setAccountType(enums.AccountType.LIBRARIAN);
         userDao.save(newU);
     }
+
+    public User readById(int parseInt) {
+        return userDao.findById(parseInt).get();
+    }
 }
