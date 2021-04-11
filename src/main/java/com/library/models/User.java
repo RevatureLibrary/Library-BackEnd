@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import javax.validation.constraints.Email;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Data
@@ -35,6 +36,9 @@ public class User {
     private Timestamp created = new Timestamp(System.currentTimeMillis());
     @Enumerated
     private enums.AccountType accountType = enums.AccountType.PATRON;
+
+    @OneToMany(mappedBy = "userId")
+    private Set<Checkout> checkouts;
 
 
     public User (UserDTO regDTO){
