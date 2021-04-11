@@ -76,8 +76,11 @@ public class HibernateConfig {
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedUsersTable();
+        //seedLibraryTable();
 
     }
+
+    //seedLibraryTable()
 
     private void seedUsersTable() {
         String sql = "SELECT username, email FROM users U WHERE U.username = \"admin\" OR U.email = \"test@test.com\" LIMIT 1";
@@ -93,8 +96,6 @@ public class HibernateConfig {
             user.setAccountType(enums.AccountType.ADMIN);
 //                user.setConfirmEmail(true);
             userService.save(user);
-            System.out.println("Admin created");
-            System.out.println(user);
 //                logger.info("Users Seeded");
         } else {
 

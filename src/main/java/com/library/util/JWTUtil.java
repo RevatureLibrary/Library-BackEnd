@@ -39,7 +39,7 @@ public class JWTUtil {
 
     private String createToken(Map<String,Object> claims, String username) {
         return Jwts.builder().setClaims(claims).setSubject(username).setIssuedAt(new Date(System.currentTimeMillis()))
-                .setExpiration(new Date(System.currentTimeMillis() +1000*60*15)).signWith(SignatureAlgorithm.HS256,SECRET).compact();
+                .setExpiration(new Date(System.currentTimeMillis() +1000*60*60*8)).signWith(SignatureAlgorithm.HS256,SECRET).compact();
     }
 
     public Boolean validateToken(String token, UserDetails userDetails){

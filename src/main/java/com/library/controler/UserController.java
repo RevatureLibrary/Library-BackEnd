@@ -9,12 +9,9 @@ import com.library.util.AuthorityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
-import static com.library.util.AuthorityUtil.getAuth;
-import static com.library.util.AuthorityUtil.isEmployee;
+import static com.library.util.AuthorityUtil.*;
 
 @RestController
 @RequestMapping(value = "/users",consumes = "application/json", produces = "application/json")
@@ -23,8 +20,8 @@ public class UserController {
     @Autowired
     UserService userService;
 
-    private String getRequestUsername(){
-        return ((JWTUserDetails) (SecurityContextHolder.getContext())).getUsername();}
+    private String getRequesterUsername(){
+        return ((JWTUserDetails) getSecurityContext()).getUsername();}
 
 
     @GetMapping
@@ -43,7 +40,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
 
         if (isEmployee(getAuth())||
-                getRequestUsername().equals(user.getUsername()))
+                getRequesterUsername().equals(user.getUsername()))
         return new ResponseEntity<>(user, HttpStatus.OK);
 
         return ResponseEntity.badRequest().build();
@@ -56,16 +53,26 @@ public class UserController {
             return ResponseEntity.badRequest().build();
 
         if (isEmployee(getAuth())||
-                getRequestUsername().equals(user.getUsername()))
+                getRequesterUsername().equals(user.getUsername()))
             return new ResponseEntity<>(user, HttpStatus.OK);
 
         return ResponseEntity.badRequest().build();
     }
+    @GetMapping(path="/librarians={librarian}")
+    public @ResponseBody ResponseEntity
+    getByIsLibrarian(@PathVariable String librarian) {
+        boolean isLibrarian = Boolean.parseBoolean(librarian);
+        if(isLibrarian)
+            return new ResponseEntity(userService.readByAccountType(enums.AccountType.LIBRARIAN),HttpStatus.OK);
+        else if(isEmployee(getAuth()))
+            return new ResponseEntity(userService.readByAccountType(enums.AccountType.PATRON),HttpStatus.OK);
+        else
+        return ResponseEntity.badRequest().build();
+    }
+
+
     @PostMapping()
     public ResponseEntity<User> register(@RequestBody UserDTO user) throws Exception{
-        System.out.println(getAuth());
-
-        System.out.println(user);
         if(user.getUsername()==null ||user.getPassword()==null)
             return ResponseEntity.unprocessableEntity().build();
         if (user.isHire() && isEmployee(getAuth()))
@@ -73,6 +80,39 @@ public class UserController {
         else
             userService.register(user);
         return ResponseEntity.status(201).body(userService.readByUsername(user.getUsername()));
+    }
+
+    @PutMapping(path="/{id}")
+    public @ResponseBody ResponseEntity<User>
+    updateById(@PathVariable int id, @RequestBody UserDTO body) {
+        User user = userService.readById(id);
+        if (user == null)
+            return ResponseEntity.notFound().build();
+
+        if (isEmployee(getAuth()))
+        {
+            userService.update(user,body);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+    @DeleteMapping(path="/{id}")
+    public @ResponseBody ResponseEntity<User>
+    deleteById(@PathVariable int id) {
+        User user = userService.readById(id);
+        if (user == null)
+            return ResponseEntity.notFound().build();
+
+        if (isEmployee(getAuth()) || //if DELETE request is being made by employee OR
+                (isPatron(getAuth())&& //DELETE request is being made by patron AND
+                        user.getUsername().equals(getRequesterUsername())))// patron is attempting to DELETE self
+                {
+            userService.delete(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+
+        return ResponseEntity.badRequest().build();
     }
 
 
