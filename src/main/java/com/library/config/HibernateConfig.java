@@ -90,9 +90,23 @@ public class HibernateConfig {
     }
 
     private void seedDepartmentTable() {
-        departmentRepo.saveAndFlush( new Department(0, "Unsorted", null));
+        departmentRepo.save( new Department(0, "Unsorted", null));
 
         departmentRepo.save( new Department(0, "Horror", null));
+
+        departmentRepo.save( new Department(0, "Romance", null));
+
+        departmentRepo.save( new Department(0, "Comedy", null));
+
+
+        departmentRepo.save( new Department(0, "Sci-Fi", null));
+
+        departmentRepo.save( new Department(0, "Fantasy", null));
+
+        departmentRepo.save( new Department(0, "Self-Help", null));
+
+        departmentRepo.save( new Department(0, "Non-Fiction", null));
+
     }
 
     //seedLibraryTable()
