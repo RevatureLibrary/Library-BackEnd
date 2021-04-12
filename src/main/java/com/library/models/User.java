@@ -37,8 +37,8 @@ public class User {
     @Enumerated
     private enums.AccountType accountType = enums.AccountType.PATRON;
 
-    @OneToMany(mappedBy = "userId")
-    private Set<Checkout> checkouts;
+    //@OneToMany(mappedBy = "userId")
+    //private Set<Checkout> checkouts;
 
 
     public User (UserDTO regDTO){
