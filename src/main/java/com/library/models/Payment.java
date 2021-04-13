@@ -3,9 +3,12 @@ package com.library.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 @Entity
 @Data
@@ -15,13 +18,16 @@ import java.sql.Timestamp;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
+    private int id;
 
-    @OneToOne
-    int userId;
+    @ManyToOne
+    private User user;
 
-    Double amount;
-    Timestamp time;
+    private double amount;
+
+    @CreationTimestamp
+    private Timestamp time;
+
     @OneToMany
-    Fee feesPaid[];
+    private Set<Fee> feesPaid;
 }
