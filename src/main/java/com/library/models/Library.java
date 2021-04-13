@@ -16,9 +16,9 @@ public class Library {
 
     @Id @Column(name = "library_name")
     String libraryName;
-    @Column(name = "opening_time")
+    @Column(name = "opening_time") @Temporal(TemporalType.TIME)
     private Time openingTime;
-    @Column(name = "closing_time")
+    @Column(name = "closing_time") @Temporal(TemporalType.TIME)
     private Time closingTime;
     @Column(name = "is_open")
     private boolean isOpen;
