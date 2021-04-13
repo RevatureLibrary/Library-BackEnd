@@ -3,7 +3,6 @@ package com.library.config;
 import com.library.models.Department;
 import com.library.models.Library;
 import com.library.models.User;
-import com.library.repo.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Time;
@@ -13,7 +12,6 @@ import java.util.Set;
 public class LibraryConfig {
     static public String libraryName = "William Memorial Library";
     @Autowired
-    private LibraryRepository libraryRepo;
 
     static public void seedLibrary() {
 

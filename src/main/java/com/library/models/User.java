@@ -41,6 +41,7 @@ public class User {
     //private Set<Checkout> checkouts;
 
 
+
     public User (UserDTO regDTO){
         this.username = regDTO.getUsername();
         this.password = regDTO.getPassword();
