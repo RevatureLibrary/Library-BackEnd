@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
+import java.util.List;
 
 @Entity
 @Data
@@ -27,4 +28,11 @@ public class Payment {
     Timestamp time;
     @OneToMany(mappedBy = "payment",targetEntity = Fee.class)
     Set<Fee> feesPaid;
+    @OneToOne
+    User userId;
+
+    Double amount;
+    Timestamp time;
+    @OneToMany
+    List<Fee> feesPaid;
 }

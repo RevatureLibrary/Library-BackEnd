@@ -15,9 +15,9 @@ public class Driver {
     @Autowired
     AuthenticationManager authenticationManager;
 
-
     public static void main(String[] args) throws Exception {
         SpringApplication.run(Driver.class, args);
 
     }
+
 }

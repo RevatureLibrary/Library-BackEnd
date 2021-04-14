@@ -13,8 +13,9 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 public class Library {
-
-    @Id @Column(name = "library_name")
+    @Id
+    int id;
+    @Column(name = "library_name")
     String libraryName;
     @Column(name = "opening_time")
     private Time openingTime;
@@ -26,8 +27,4 @@ public class Library {
 
     @OneToMany
     private Set<Department> departments;
-    @OneToMany
-    private Set<User> currentLibrarians;
-    @OneToMany
-    private Set<User> currentPatrons;
 }
