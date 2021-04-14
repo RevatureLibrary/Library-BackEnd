@@ -5,18 +5,22 @@ import com.library.models.Library;
 import com.library.models.User;
 import com.library.repo.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.context.annotation.Configuration;
 
+import javax.annotation.PostConstruct;
 import java.sql.Time;
 import java.util.HashSet;
 import java.util.Set;
 
+@Configuration
 public class LibraryConfig {
     static public int libraryId = 1;
+
     @Autowired
     private LibraryRepository libraryRepo;
 
+    @PostConstruct
     public void seedLibrary() {
-
         if (!libraryRepo.existsById(libraryId)) {
             String libraryName = "William Memorial Library";
             Time openingTime = Time.valueOf("00:00:00");
