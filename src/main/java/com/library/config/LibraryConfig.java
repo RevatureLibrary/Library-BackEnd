@@ -3,7 +3,6 @@ package com.library.config;
 import com.library.models.Department;
 import com.library.models.Library;
 import com.library.models.User;
-import com.library.repo.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 
@@ -17,7 +16,6 @@ public class LibraryConfig {
     static public int libraryId = 1;
 
     @Autowired
-    private LibraryRepository libraryRepo;
 
     @PostConstruct
     public void seedLibrary() {

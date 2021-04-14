@@ -1,100 +1,55 @@
 package com.library.models;
 
+import com.fasterxml.jackson.annotation.*;
+import com.library.models.request.BookDTO;
+import lombok.*;
+import org.hibernate.annotations.Cascade;
+import org.hibernate.annotations.Fetch;
+import org.hibernate.annotations.FetchMode;
+
 import javax.persistence.*;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 @Entity
+@Getter
+@Setter
+@ToString(exclude = "departments")
+@EqualsAndHashCode(exclude = "departments")
+@AllArgsConstructor
+@NoArgsConstructor
 public class Book {
-    @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-    int isbn;
-    String title;
-    String author;
-    String publisher;
-    @Enumerated
-    enums.Condition condition;
-    @Enumerated
-    enums.BookStatus bookStatus;
-    @ManyToMany(mappedBy = "books") //mappedBy tells Hibernate this is the child side of the bidirectional mapping
-    Set<Department> departments;
 
-    public Book() {
-    }
+        @Id
+        @GeneratedValue(strategy = GenerationType.AUTO)
+        int id;
+        int isbn;
+        String title;
+        String author;
+        String publisher;
+        @Enumerated
+        enums.Condition condition;
+        @Enumerated
+        enums.BookStatus bookStatus;
 
-    public Book(int id, int isbn, String title, String author, String publisher, enums.Condition condition, enums.BookStatus bookStatus, HashSet<Department> departments) {
-        this.id = id;
-        this.isbn = isbn;
-        this.title = title;
-        this.author = author;
-        this.publisher = publisher;
-        this.condition = condition;
-        this.bookStatus = bookStatus;
-        this.departments = departments;
-    }
+        @ManyToMany(mappedBy = "books", cascade = CascadeType.REFRESH) //mappedBy tells Hibernate this is the child side of the bidirectional mapping
+        @JsonIdentityReference(alwaysAsId = true)
+        @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
+        @JsonIgnore
+        Set<Department> departments = new HashSet<>();
 
-    public int getId() {
-        return id;
-    }
 
-    public void setId(int id) {
-        this.id = id;
-    }
+        public Book(BookDTO bookDTO){
+                this.isbn = bookDTO.getIsbn();
+                this.title = bookDTO.getTitle();
+                this.author = bookDTO.getAuthor();
+                this.publisher = bookDTO.getPublisher();
+                this.condition = bookDTO.getCondition();
+                this.bookStatus = bookDTO.getBookStatus();
+                this.departments = new HashSet<>();
 
-    public int getIsbn() {
-        return isbn;
-    }
+        }
 
-    public void setIsbn(int isbn) {
-        this.isbn = isbn;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
-    }
-
-    public String getAuthor() {
-        return author;
-    }
-
-    public void setAuthor(String author) {
-        this.author = author;
-    }
-
-    public String getPublisher() {
-        return publisher;
-    }
-
-    public void setPublisher(String publisher) {
-        this.publisher = publisher;
-    }
-
-    public enums.Condition getCondition() {
-        return condition;
-    }
-
-    public void setCondition(enums.Condition condition) {
-        this.condition = condition;
-    }
-
-    public enums.BookStatus getBookStatus() {
-        return bookStatus;
-    }
-
-    public void setBookStatus(enums.BookStatus bookStatus) {
-        this.bookStatus = bookStatus;
-    }
-
-    public Set<Department> getDepartments() {
-        return departments;
-    }
-
-    public void setDepartments(Set<Department> departments) {
-        this.departments = departments;
-    }
 }

@@ -14,19 +14,15 @@ import org.springframework.web.bind.annotation.*;
 import static com.library.util.AuthorityUtil.*;
 
 @RestController
-@RequestMapping(value = "/users",consumes = "application/json", produces = "application/json")
+@RequestMapping(value = {"library/users","**/users"},consumes = "application/json", produces = "application/json")
 public class UserController {
 
     @Autowired
     UserService userService;
 
-    private String getRequesterUsername(){
-        return ((JWTUserDetails) getSecurityContext()).getUsername();}
-
-
     @GetMapping
     public ResponseEntity<?> getAllUsers(){
-        if(AuthorityUtil.isEmployee(getAuth()))
+        if(AuthorityUtil.isEmployee())
             return ResponseEntity.ok(userService.getAll());
         else
             return ResponseEntity.badRequest().build();
@@ -39,7 +35,7 @@ public class UserController {
         if (user == null)
             return ResponseEntity.badRequest().build();
 
-        if (isEmployee(getAuth())||
+        if (isEmployee()||
                 getRequesterUsername().equals(user.getUsername()))
         return new ResponseEntity<>(user, HttpStatus.OK);
 
@@ -52,7 +48,7 @@ public class UserController {
         if (user == null)
             return ResponseEntity.badRequest().build();
 
-        if (isEmployee(getAuth())||
+        if (isEmployee()||
                 getRequesterUsername().equals(user.getUsername()))
             return new ResponseEntity<>(user, HttpStatus.OK);
 
@@ -64,7 +60,7 @@ public class UserController {
         boolean isLibrarian = Boolean.parseBoolean(librarian);
         if(isLibrarian)
             return new ResponseEntity(userService.readByAccountType(enums.AccountType.LIBRARIAN),HttpStatus.OK);
-        else if(isEmployee(getAuth()))
+        else if(isEmployee())
             return new ResponseEntity(userService.readByAccountType(enums.AccountType.PATRON),HttpStatus.OK);
         else
         return ResponseEntity.badRequest().build();
@@ -75,7 +71,7 @@ public class UserController {
     public ResponseEntity<User> register(@RequestBody UserDTO user) throws Exception{
         if(user.getUsername()==null ||user.getPassword()==null)
             return ResponseEntity.unprocessableEntity().build();
-        if (user.isHire() && isEmployee(getAuth()))
+        if (user.isHire() && isEmployee())
             userService.hire(user);
         else
             userService.register(user);
@@ -89,7 +85,7 @@ public class UserController {
         if (user == null)
             return ResponseEntity.notFound().build();
 
-        if (isEmployee(getAuth()))
+        if (isEmployee())
         {
             userService.update(user,body);
             return new ResponseEntity<>(user, HttpStatus.OK);
@@ -104,8 +100,8 @@ public class UserController {
         if (user == null)
             return ResponseEntity.notFound().build();
 
-        if (isEmployee(getAuth()) || //if DELETE request is being made by employee OR
-                (isPatron(getAuth())&& //DELETE request is being made by patron AND
+        if (isEmployee() || //if DELETE request is being made by employee OR
+                (isPatron()&& //DELETE request is being made by patron AND
                         user.getUsername().equals(getRequesterUsername())))// patron is attempting to DELETE self
                 {
             userService.delete(id);

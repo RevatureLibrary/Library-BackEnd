@@ -1,7 +1,10 @@
 package com.library.config;
 
+import com.library.models.Department;
 import com.library.models.User;
 import com.library.models.enums;
+import com.library.repo.DepartmentRepo;
+import com.library.services.DepartmentService;
 import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -25,6 +28,10 @@ import java.util.Properties;
 public class HibernateConfig {
     @Autowired
     UserService userService;
+    @Autowired
+    DepartmentRepo departmentRepo;
+    @Autowired
+    DepartmentService departmentService;
 
 
 //    @Bean
@@ -35,6 +42,7 @@ public class HibernateConfig {
 //    }
     @Bean
     public LocalSessionFactoryBean entityManagerFactory() {
+
         LocalSessionFactoryBean sessionFactory = new LocalSessionFactoryBean();
         sessionFactory.setDataSource(dataSource());
         sessionFactory.setPackagesToScan("com.*");
@@ -76,6 +84,29 @@ public class HibernateConfig {
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedUsersTable();
+        seedDepartmentTable();
+        //seedLibraryTable();
+
+    }
+
+    private void seedDepartmentTable() {
+        departmentRepo.save( new Department(0, "Unsorted", null));
+
+        departmentRepo.save( new Department(0, "Horror", null));
+
+        departmentRepo.save( new Department(0, "Romance", null));
+
+        departmentRepo.save( new Department(0, "Comedy", null));
+
+
+        departmentRepo.save( new Department(0, "Sci-Fi", null));
+
+        departmentRepo.save( new Department(0, "Fantasy", null));
+
+        departmentRepo.save( new Department(0, "Self-Help", null));
+
+        departmentRepo.save( new Department(0, "Non-Fiction", null));
+
     }
 
     //seedLibraryTable()
