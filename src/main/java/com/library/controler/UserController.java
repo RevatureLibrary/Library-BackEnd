@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.library.util.AuthorityUtil.*;
 
 @RestController
-@RequestMapping(value = "/users",consumes = "application/json", produces = "application/json")
+@RequestMapping(value = {"library/users","**/users"},consumes = "application/json", produces = "application/json")
 public class UserController {
 
     @Autowired

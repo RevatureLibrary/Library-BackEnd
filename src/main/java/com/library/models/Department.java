@@ -17,6 +17,8 @@ import java.util.Set;
 @Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@JsonIdentityReference(alwaysAsId = true)
+@JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
 @Table(name = "departments")
 public class Department {
     @Id
@@ -24,12 +26,12 @@ public class Department {
     private int id;
 
     private String name;
-    @ManyToMany(fetch = FetchType.EAGER,cascade = CascadeType.ALL)
+    @ManyToMany(fetch = FetchType.EAGER,cascade ={ CascadeType.ALL, CascadeType.MERGE})
     //owner/parent side of mapping defines join table
     @JoinTable(name = "Department_Book",
         joinColumns = {@JoinColumn(name = "department_id")},
         inverseJoinColumns = {@JoinColumn(name = "book_id")})
-    @JsonIdentityInfo(generator = ObjectIdGenerators.IntSequenceGenerator.class)
+    @JsonIgnore
     private Set<Book> books;
 
 

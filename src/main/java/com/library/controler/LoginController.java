@@ -21,7 +21,7 @@ public class LoginController {
     @Autowired
     private JWTUtil jwTokenUtil;
 
-    @RequestMapping(value = "/authentication", method = RequestMethod.POST)
+    @RequestMapping(value = "/library/authentication", method = RequestMethod.POST)
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginAttempt loginAttempt) throws Exception{
         try {
             authenticationManager.authenticate(
