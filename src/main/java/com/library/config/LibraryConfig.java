@@ -10,20 +10,25 @@ import java.util.HashSet;
 import java.util.Set;
 
 public class LibraryConfig {
-    static public String libraryName = "William Memorial Library";
+    static public int libraryId = 1;
     @Autowired
 
     public void seedLibrary() {
 
-        Time openingTime = Time.valueOf("00:00:00");
-        Time closingTime = Time.valueOf("23:59:59");
-        boolean isOpen = true;
-        int capacity = 10;
-        Set<Department> departments = new HashSet();
-        Set<User> currentLibrarians = new HashSet();
-        Set<User> currentPatrons = new HashSet();
+        if (!libraryRepo.existsById(libraryId)) {
+            String libraryName = "William Memorial Library";
+            Time openingTime = Time.valueOf("00:00:00");
+            Time closingTime = Time.valueOf("23:59:59");
+            boolean isOpen = true;
+            int capacity = 10;
+            Set<Department> departments = new HashSet();
+            Set<User> currentLibrarians = new HashSet();
+            Set<User> currentPatrons = new HashSet();
 
-        Library library = new Library(libraryName, openingTime, closingTime, isOpen, capacity, departments, currentLibrarians, currentPatrons);
-        libraryRepo.save(library);
+            Library library = new Library(libraryId, libraryName, openingTime, closingTime, isOpen, capacity, departments, currentLibrarians, currentPatrons);
+            libraryRepo.save(library);
+        }
+
+
     }
 }
