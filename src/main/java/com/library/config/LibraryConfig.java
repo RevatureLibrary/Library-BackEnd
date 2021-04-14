@@ -13,7 +13,7 @@ public class LibraryConfig {
     static public String libraryName = "William Memorial Library";
     @Autowired
 
-    static public void seedLibrary() {
+    public void seedLibrary() {
 
         Time openingTime = Time.valueOf("00:00:00");
         Time closingTime = Time.valueOf("23:59:59");
@@ -24,7 +24,6 @@ public class LibraryConfig {
         Set<User> currentPatrons = new HashSet();
 
         Library library = new Library(libraryName, openingTime, closingTime, isOpen, capacity, departments, currentLibrarians, currentPatrons);
-
-
+        libraryRepo.save(library);
     }
 }
