@@ -13,12 +13,13 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 public class Library {
-
-    @Id @Column(name = "library_name")
+    @Id
+    int id;
+    @Column(name = "library_name")
     String libraryName;
-    @Column(name = "opening_time") @Temporal(TemporalType.TIME)
+    @Column(name = "opening_time")
     private Time openingTime;
-    @Column(name = "closing_time") @Temporal(TemporalType.TIME)
+    @Column(name = "closing_time")
     private Time closingTime;
     @Column(name = "is_open")
     private boolean isOpen;

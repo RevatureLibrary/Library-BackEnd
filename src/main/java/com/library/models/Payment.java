@@ -6,6 +6,7 @@ import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 
 @Entity
 @Data
@@ -18,10 +19,10 @@ public class Payment {
     int id;
 
     @OneToOne
-    int userId;
+    User userId;
 
     Double amount;
     Timestamp time;
     @OneToMany
-    Fee feesPaid[];
+    List<Fee> feesPaid;
 }

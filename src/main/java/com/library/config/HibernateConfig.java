@@ -76,8 +76,6 @@ public class HibernateConfig {
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedUsersTable();
-        //seedLibraryTable();
-
     }
 
     //seedLibraryTable()
