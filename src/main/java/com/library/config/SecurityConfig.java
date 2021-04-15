@@ -58,14 +58,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationManager authenticationManagerBean() throws Exception{
         return super.authenticationManagerBean();
     }
-    @Bean
-    public Docket swaggerConfig(){
-        return new Docket(DocumentationType.SWAGGER_2)
-                .select()
-                .paths(PathSelectors.ant("/library/*"))
-                .apis(RequestHandlerSelectors.basePackage("com.library"))
-                .build();
-    }
+//    @Bean
+//    public Docket swaggerConfig(){
+//        return new Docket(DocumentationType.SWAGGER_2)
+//                .select()
+//                .paths(PathSelectors.ant("/library/*"))
+//                .apis(RequestHandlerSelectors.basePackage("com.library"))
+//                .build();
+//    }
 
     @Bean
     public PasswordEncoder passwordEncoder(){

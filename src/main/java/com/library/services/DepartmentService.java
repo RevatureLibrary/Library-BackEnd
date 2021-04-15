@@ -75,4 +75,11 @@ public class DepartmentService {
     public void createDepartment(Department newDept) {
         departmentRepo.save(newDept);
     }
+
+    public void deleteDepartment(String name) {
+        Department department = departmentRepo.findByNameEqualsIgnoreCase(name);
+        departmentRepo.delete(department);
+    }
+
+
 }

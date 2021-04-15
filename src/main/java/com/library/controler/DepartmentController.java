@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.TreeSet;
 
 import static com.library.util.AuthorityUtil.isEmployee;
 
@@ -26,7 +25,6 @@ public class DepartmentController {
             return ResponseEntity.status(403).build();
         else
             return ResponseEntity.ok(result);
-
     }
 
     @PostMapping
@@ -42,5 +40,17 @@ public class DepartmentController {
         return ResponseEntity.status(HttpStatus.CREATED).body(newDept);
     }
 
+    @DeleteMapping
+    public ResponseEntity deleteDepartment(@RequestBody String name){
+        if(!isEmployee())
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
+
+        if(!departmentService.departmentExists(name))
+            return ResponseEntity.notFound().build();
+
+        departmentService.deleteDepartment(name);
+
+        return ResponseEntity.ok().build();
+    }
 
 }
