@@ -21,10 +21,6 @@ public class Library {
     private Time openingTime;
     @Column(name = "closing_time")
     private Time closingTime;
-    @Column(name = "is_open")
+    @Transient
     private boolean isOpen;
-    private int capacity;
-
-    @OneToMany
-    private Set<Department> departments;
 }

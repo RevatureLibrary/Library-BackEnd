@@ -5,6 +5,7 @@ import com.library.models.Library;
 import com.library.models.User;
 import com.library.models.enums;
 import com.library.repo.DepartmentRepo;
+import com.library.repo.LibraryRepository;
 import com.library.services.DepartmentService;
 import com.library.services.LibraryService;
 import com.library.services.UserService;
@@ -39,6 +40,8 @@ public class HibernateConfig {
     private UserService userService;
     @Autowired
     private DepartmentService departmentService;
+    @Autowired
+    private LibraryRepository libraryRepository;
 
 
 //
@@ -65,7 +68,7 @@ public class HibernateConfig {
             dataSourceBuilder.driverClassName("org.postgresql.Driver");
             dataSourceBuilder.url("jdbc:postgresql://localhost:5432/postgres");
             dataSourceBuilder.username("postgres");
-            dataSourceBuilder.password("password");
+            dataSourceBuilder.password("112233");
 
             return dataSourceBuilder.build();
         }
@@ -109,20 +112,29 @@ public class HibernateConfig {
 
     }
 
+//    public void seedLibraryTable() {
+//        String libraryName = "William Memorial Library";
+//
+//        if (!libraryService.existsByName(libraryName)) {
+//            Time openingTime = Time.valueOf("00:00:00");
+//            Time closingTime = Time.valueOf("23:59:59");
+//            boolean isOpen = true;
+//            Library library = new Library(1, libraryName, openingTime, closingTime, isOpen);
+//            libraryRepository.save(library);
+//        }
+//
+//
+//    }
+
     public void seedLibraryTable() {
         String libraryName = "William Memorial Library";
 
-        if (!libraryService.existsByName(libraryName)) {
+        if (libraryRepository.existsById(1)) {
             Time openingTime = Time.valueOf("00:00:00");
             Time closingTime = Time.valueOf("23:59:59");
             boolean isOpen = true;
-            int capacity = 10;
-            Set<Department> departments = new HashSet();
-            Set<User> currentLibrarians = new HashSet();
-            Set<User> currentPatrons = new HashSet();
-
-            Library library = new Library(0, libraryName, openingTime, closingTime, isOpen, capacity, departments, currentLibrarians, currentPatrons);
-            libraryService.create(library);
+            Library library = new Library(1, libraryName, openingTime, closingTime, isOpen);
+            libraryRepository.save(library);
         }
 
 

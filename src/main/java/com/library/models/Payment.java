@@ -34,9 +34,4 @@ public class Payment {
     Set<Fee> feesPaid;
     @OneToOne
     User userId;
-
-    Double amount;
-    Timestamp time;
-    @OneToMany
-    List<Fee> feesPaid;
 }
