@@ -25,14 +25,18 @@ public class Payment {
 
 
     @ManyToOne
-    private User user;
+    //@JsonIgnoreProperties(value = "payments")
+    User user;
 
-    private double amount;
+    Double amount;
+    Timestamp time;
+    @OneToMany(mappedBy = "payment",targetEntity = Fee.class)
+    Set<Fee> feesPaid;
+    @OneToOne
+    User userId;
 
-    @CreationTimestamp
-    private Timestamp time;
-
+    Double amount;
+    Timestamp time;
     @OneToMany
-    private Set<Fee> feesPaid;
-
+    List<Fee> feesPaid;
 }

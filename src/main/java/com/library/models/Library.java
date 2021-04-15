@@ -27,8 +27,4 @@ public class Library {
 
     @OneToMany
     private Set<Department> departments;
-    @OneToMany
-    private Set<User> currentLibrarians;
-    @OneToMany
-    private Set<User> currentPatrons;
 }

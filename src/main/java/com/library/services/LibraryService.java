@@ -7,7 +7,6 @@ import com.library.repo.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.Optional;
 
 @Service
 public class LibraryService {
@@ -24,10 +23,6 @@ public class LibraryService {
 //        return new OpeningAndClosingTimeDTO(library.getOpeningTime(), library.getClosingTime());
 //    }
 
-//    public void addDepartment(Department department) {
-//        Library library = libraryRepo.findById(LibraryConfig.libraryId).get();
-//
-//    }
 
     public boolean existsByName(String libraryName) {
         return (libraryRepo.findByNameEqualsIgnoreCase(libraryName)==null);
@@ -36,4 +31,21 @@ public class LibraryService {
     public void create(Library library) {
         libraryRepo.save(library);
     }
+    public void addDepartment(Department department) {
+        Library library = libraryRepo.findById(LibraryConfig.libraryId).get();
+        library.getDepartments().add(department);
+        libraryRepo.save(library);
+    }
+
+    public void updateLibraryName(String libraryName) {
+        Library library = libraryRepo.findById(LibraryConfig.libraryId).get();
+        library.setLibraryName(libraryName);
+        libraryRepo.save(library);
+    }
+
+    public LibraryInfo getLibraryInfo() {
+        Library library = libraryRepo.findById(LibraryConfig.libraryId).get();
+        return new LibraryInfo(library.getLibraryName(), library.getOpeningTime(), library.getClosingTime(), library.isOpen());
+    }
+
 }
