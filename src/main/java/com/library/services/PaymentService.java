@@ -1,10 +1,8 @@
 package com.library.services;
 
 import com.library.DAO.PaymentDao;
-import com.library.DAO.UserDao;
 import com.library.models.Fee;
 import com.library.models.Payment;
-import com.library.models.request.PaymentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -32,5 +30,5 @@ public class PaymentService {
         paymentToBeMade.setUser(userService.readById(userId));
     }
 
-    public List<Payment> getAllPaymentsMadeByUser(int userId){return paymentDao.paymentsMadeByUser(userId);}
+    public List<Payment> getAllPaymentsMadeByUser(String username){return paymentDao.findByUser_username(username);}
 }

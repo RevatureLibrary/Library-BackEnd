@@ -7,7 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FeeDao extends JpaRepository<User, Integer> {
+public interface FeeDao extends JpaRepository<Fee, Integer> {
 
     List<Fee> findByFeeStatus(enums.FeeStatus feeStatus);
 

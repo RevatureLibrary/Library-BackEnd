@@ -28,11 +28,10 @@ public class DepartmentService {
 
     public void addToUnsorted(Book book) {
         Department us = unsorted();
-        System.out.println(us);
+        book.getDepartments().add(us);
         us.setBooks(getOrCreateBooks(us));
         bookRepo.save(book);
         us.getBooks().add(book);
-        System.out.println(us);
         departmentRepo.save(us);
     }
 
@@ -46,13 +45,12 @@ public class DepartmentService {
 
     public void addToDepartments(Book book) {
         Book b = bookRepo.save(book);
-        for (Department d :
-                b.getDepartments()) {
+        b.getDepartments().forEach((Department d)-> {
             d.setBooks(getOrCreateBooks(d));
             d.getBooks().add(b);
 
             departmentRepo.save(d);
-        }
+        });
     }
 
     public Department findOne(String unsorted) {
@@ -60,7 +58,7 @@ public class DepartmentService {
 
     }
 
-    public HashSet<Department> parseBookDTO(String[] departments) {
+    public HashSet<Department> parseBookDTODepartments(String[] departments) {
             HashSet<Department> result = new HashSet<>();
             if(departments!=null)
                 for (String s :
@@ -68,5 +66,13 @@ public class DepartmentService {
                     result.add(departmentRepo.findByNameEqualsIgnoreCase(s));
                 }
             return result;
+    }
+
+    public boolean departmentExists(String name) {
+        return (departmentRepo.findByNameEqualsIgnoreCase(name) != null);
+    }
+
+    public void createDepartment(Department newDept) {
+        departmentRepo.save(newDept);
     }
 }

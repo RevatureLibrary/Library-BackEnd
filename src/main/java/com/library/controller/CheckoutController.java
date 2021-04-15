@@ -21,7 +21,7 @@ public class CheckoutController {
         // You can retrieve the username, password, etc.
         // from the SecurityContextHolder by casting to JWTUserDetails
 //        SecurityContextHolder.getContext()
-        if(isEmployee(getAuth()))
+        if(isEmployee())
             return ResponseEntity.ok(checkoutService.getAll());
         else
             return ResponseEntity.badRequest().build();
@@ -33,15 +33,10 @@ public class CheckoutController {
         Checkout checkout = checkoutService.getById(Integer.parseInt(id));
         if(checkout == null)
             return ResponseEntity.badRequest().build();
-        if(isPatron(getAuth()))
+        if(isPatron())
             return new ResponseEntity<>(checkout, HttpStatus.OK);
 
         return ResponseEntity.badRequest().build();
-    }
-
-    @GetMapping
-    public @ResponseBody ResponseEntity<Checkout> getByBook(){
-        return null;
     }
 
 

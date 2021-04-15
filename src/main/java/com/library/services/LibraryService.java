@@ -1,6 +1,5 @@
 package com.library.services;
 
-import com.library.config.LibraryConfig;
 import com.library.dto.OpeningAndClosingTimeDTO;
 import com.library.models.Department;
 import com.library.models.Library;
@@ -16,18 +15,25 @@ public class LibraryService {
     @Autowired
     LibraryRepository libraryRepo;
 
-    public Library getLibary() {
-        return libraryRepo.findById(LibraryConfig.libraryId).get();
+    public Library getLibraryByName(String name) {
+        return libraryRepo.findByNameEqualsIgnoreCase(name);
     }
 
-    public OpeningAndClosingTimeDTO getTime() {
-        Library library = libraryRepo.findById(LibraryConfig.libraryId).get();
-        return new OpeningAndClosingTimeDTO(library.getOpeningTime(), library.getClosingTime());
+//    public OpeningAndClosingTimeDTO getTime(Library library) {
+//        Library library = libraryRepo.findById(LibraryConfig.libraryId).get();
+//        return new OpeningAndClosingTimeDTO(library.getOpeningTime(), library.getClosingTime());
+//    }
+
+//    public void addDepartment(Department department) {
+//        Library library = libraryRepo.findById(LibraryConfig.libraryId).get();
+//
+//    }
+
+    public boolean existsByName(String libraryName) {
+        return (libraryRepo.findByNameEqualsIgnoreCase(libraryName)==null);
     }
 
-    public void addDepartment(Department department) {
-        Library library = libraryRepo.findById(LibraryConfig.libraryId).get();
-
+    public void create(Library library) {
+        libraryRepo.save(library);
     }
-
 }

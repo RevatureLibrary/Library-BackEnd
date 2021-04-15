@@ -16,7 +16,7 @@ public class Library {
     @Id
     int id;
     @Column(name = "library_name")
-    String libraryName;
+    String name;
     @Column(name = "opening_time")
     private Time openingTime;
     @Column(name = "closing_time")

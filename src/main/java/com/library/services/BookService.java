@@ -10,7 +10,6 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
@@ -28,11 +27,11 @@ public class BookService {
 
     @Transactional
     public Book addBook(BookDTO book) {
-        HashSet<Department> dep = departmentService.parseBookDTO(book.getDepartments());
+        HashSet<Department> dep = departmentService.parseBookDTODepartments(book.getDepartments());
         Book result = new Book(book);
         result.setDepartments(dep);
         if(dep.isEmpty())
-            departmentService.addToUnsorted(new Book(book));
+            departmentService.addToUnsorted(result);
         else
             departmentService.addToDepartments(result);
 

@@ -9,5 +9,7 @@ import java.util.List;
 
 public interface PaymentDao extends JpaRepository<Payment, Integer> {
     //Return a list of payments specified by a userID
-    List<Payment> paymentsMadeByUser(int userId);
+    List<Payment> findByUser(int userId);
+
+    List<Payment> findByUser_username(String username);
 }

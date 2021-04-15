@@ -1,10 +1,12 @@
 package com.library.config;
 
 import com.library.models.Department;
+import com.library.models.Library;
 import com.library.models.User;
 import com.library.models.enums;
 import com.library.repo.DepartmentRepo;
 import com.library.services.DepartmentService;
+import com.library.services.LibraryService;
 import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.jdbc.DataSourceBuilder;
@@ -20,20 +22,26 @@ import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
 import javax.sql.DataSource;
+import java.sql.Time;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Properties;
+import java.util.Set;
 
 @Configuration
 @EnableTransactionManagement
 public class HibernateConfig {
+
     @Autowired
-    UserService userService;
+    private LibraryService libraryService;
+
     @Autowired
-    DepartmentRepo departmentRepo;
+    private UserService userService;
     @Autowired
-    DepartmentService departmentService;
+    private DepartmentService departmentService;
 
 
+//
 //    @Bean
 //    public LocalEntityManagerFactoryBean entityManagerFactoryBean() {
 //        LocalEntityManagerFactoryBean factory = new LocalEntityManagerFactoryBean();
@@ -57,7 +65,7 @@ public class HibernateConfig {
             dataSourceBuilder.driverClassName("org.postgresql.Driver");
             dataSourceBuilder.url("jdbc:postgresql://localhost:5432/postgres");
             dataSourceBuilder.username("postgres");
-            dataSourceBuilder.password("112233");
+            dataSourceBuilder.password("password");
 
             return dataSourceBuilder.build();
         }
@@ -85,31 +93,40 @@ public class HibernateConfig {
     public void seed(ContextRefreshedEvent event) {
         seedUsersTable();
         seedDepartmentTable();
-        //seedLibraryTable();
+        seedLibraryTable();
 
     }
 
     private void seedDepartmentTable() {
-        departmentRepo.save( new Department(0, "Unsorted", null));
-
-        departmentRepo.save( new Department(0, "Horror", null));
-
-        departmentRepo.save( new Department(0, "Romance", null));
-
-        departmentRepo.save( new Department(0, "Comedy", null));
-
-
-        departmentRepo.save( new Department(0, "Sci-Fi", null));
-
-        departmentRepo.save( new Department(0, "Fantasy", null));
-
-        departmentRepo.save( new Department(0, "Self-Help", null));
-
-        departmentRepo.save( new Department(0, "Non-Fiction", null));
+        departmentService.createDepartment( new Department(0, "Unsorted", null));
+        departmentService.createDepartment( new Department(0, "Horror", null));
+        departmentService.createDepartment( new Department(0, "Romance", null));
+        departmentService.createDepartment( new Department(0, "Comedy", null));
+        departmentService.createDepartment( new Department(0, "Sci-Fi", null));
+        departmentService.createDepartment( new Department(0, "Fantasy", null));
+        departmentService.createDepartment( new Department(0, "Self-Help", null));
+        departmentService.createDepartment( new Department(0, "Non-Fiction", null));
 
     }
 
-    //seedLibraryTable()
+    public void seedLibraryTable() {
+        String libraryName = "William Memorial Library";
+
+        if (!libraryService.existsByName(libraryName)) {
+            Time openingTime = Time.valueOf("00:00:00");
+            Time closingTime = Time.valueOf("23:59:59");
+            boolean isOpen = true;
+            int capacity = 10;
+            Set<Department> departments = new HashSet();
+            Set<User> currentLibrarians = new HashSet();
+            Set<User> currentPatrons = new HashSet();
+
+            Library library = new Library(0, libraryName, openingTime, closingTime, isOpen, capacity, departments, currentLibrarians, currentPatrons);
+            libraryService.create(library);
+        }
+
+
+    }
 
     private void seedUsersTable() {
         String sql = "SELECT username, email FROM users U WHERE U.username = \"admin\" OR U.email = \"test@test.com\" LIMIT 1";
