@@ -1,6 +1,6 @@
 package com.library.services;
 
-import com.library.DAO.CheckoutDao;
+import com.library.repo.CheckoutRepo;
 import com.library.models.Book;
 import com.library.models.Checkout;
 import com.library.models.User;
@@ -12,7 +12,7 @@ import java.util.List;
 @Service
 public class CheckoutService {
     @Autowired
-    CheckoutDao checkoutDao;
+    CheckoutRepo checkoutDao;
 
     public List<Checkout> getAll(){
         return checkoutDao.findAll();
