@@ -20,7 +20,7 @@ import java.util.Set;
 @JsonIdentityReference(alwaysAsId = true)
 @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
 @Table(name = "departments")
-public class Department {
+public class Department implements Comparable<Department> {
     @Id
     @GeneratedValue
     private int id;
@@ -34,7 +34,8 @@ public class Department {
     @JsonIgnore
     private Set<Book> books;
 
-
-
-
+    @Override
+    public int compareTo(Department d) {
+        return this.name.compareTo(d.getName());
+    }
 }

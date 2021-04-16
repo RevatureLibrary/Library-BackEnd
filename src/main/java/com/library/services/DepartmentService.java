@@ -23,7 +23,7 @@ public class DepartmentService {
     }
 
     public Set<Book> getOrCreateBooks(Department d) {
-        return ((d.getBooks()==null)? new HashSet<>():d.getBooks());
+        return ((d.getBooks()==null)? new TreeSet<>():d.getBooks());
     }
 
     public void addToUnsorted(Book book) {
@@ -45,12 +45,18 @@ public class DepartmentService {
 
     public void addToDepartments(Book book) {
         Book b = bookRepo.save(book);
-        b.getDepartments().forEach((Department d)-> {
+
+        Department[] deps = new Department[book.getDepartments().size()];
+        b.getDepartments().toArray(deps);
+
+        for (Department d :
+                deps) {
             d.setBooks(getOrCreateBooks(d));
             d.getBooks().add(b);
 
             departmentRepo.save(d);
-        });
+        }
+
     }
 
     public Department findOne(String unsorted) {
@@ -58,8 +64,8 @@ public class DepartmentService {
 
     }
 
-    public HashSet<Department> parseBookDTODepartments(String[] departments) {
-            HashSet<Department> result = new HashSet<>();
+    public TreeSet<Department> parseBookDTODepartments(String[] departments) {
+            TreeSet<Department> result = new TreeSet<>();
             if(departments!=null)
                 for (String s :
                         departments) {

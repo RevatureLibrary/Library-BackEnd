@@ -1,4 +1,4 @@
-package com.library.controler;
+package com.library.controller;
 
 import com.library.models.Department;
 import com.library.services.DepartmentService;
@@ -8,7 +8,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.TreeSet;
 
 import static com.library.util.AuthorityUtil.isEmployee;
 

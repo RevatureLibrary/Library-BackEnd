@@ -1,12 +1,10 @@
-package com.library.controler;
+package com.library.controller;
 
 import com.library.models.Book;
 import com.library.models.request.BookDTO;
 import com.library.services.BookService;
 import com.library.services.DepartmentService;
-import com.library.util.AuthorityUtil.*;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 

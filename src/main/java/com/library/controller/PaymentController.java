@@ -1,4 +1,4 @@
-package com.library.controler;
+package com.library.controller;
 
 public class PaymentController {
 }
