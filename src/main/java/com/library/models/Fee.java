@@ -20,7 +20,7 @@ public class Fee {
 
     private Timestamp assessed = new Timestamp(System.currentTimeMillis());
     private Timestamp resolved;
-    private double amount;
+    private double amount = 0.0;
 
     @Enumerated
     private enums.FeeType feeType;
