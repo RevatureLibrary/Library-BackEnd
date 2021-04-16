@@ -34,14 +34,20 @@ public class CheckoutController {
         if(checkout == null)
             return ResponseEntity.badRequest().build();
         if(isPatron())
-            return ResponseEntity.ok(checkoutService.getById(id));
+            return ResponseEntity.ok(checkoutService.getById(Integer.parseInt(id)));
 
         return ResponseEntity.badRequest().build();
     }
 
     @PostMapping
-    public ResponseEntity<Checkout> insertCheckout(@RequestBody){
-        
+    public ResponseEntity<Checkout> insertCheckout(@RequestBody Checkout checkout){
+        if(checkout.getBook() == null){
+            return ResponseEntity.unprocessableEntity().build();
+        }
+        if(isPatron() || isEmployee()){
+            checkoutService.save(checkout);
+        }
+        return ResponseEntity.status(201).body(checkoutService.getById(1));
     }
 
 
