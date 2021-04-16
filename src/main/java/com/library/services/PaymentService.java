@@ -1,14 +1,14 @@
 package com.library.services;
 
 
-import com.library.DAO.FeeDao;
-import com.library.DAO.PaymentDao;
-import com.library.DAO.UserDao;
 import com.library.models.Fee;
 import com.library.models.Payment;
 import com.library.models.User;
 import com.library.models.enums;
 import com.library.models.request.PaymentDTO;
+import com.library.repo.FeeDao;
+import com.library.repo.PaymentDao;
+import com.library.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -23,7 +23,7 @@ public class PaymentService {
     @Autowired
     UserService userService;
     @Autowired
-    UserDao userDao;
+    UserRepo userDao;
 
     public void makePayment(double amount, ArrayList<Fee> feeID, int userId){
         Payment paymentToBeMade = new Payment();
@@ -41,7 +41,7 @@ public class PaymentService {
         paymentDao.save(paymentToBeMade);
     }
 
-    public List<Payment> getAllPaymentsMadeByUser(int userId){return paymentDao.findByUser(userId);}
+    public List<Payment> getAllPaymentsMadeByUser(String username){return paymentDao.findByUser_username(username);}
 
     public Payment getPaymentById(int paymentId){
         return paymentDao.getOne(paymentId);

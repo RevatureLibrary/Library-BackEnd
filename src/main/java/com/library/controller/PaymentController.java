@@ -1,7 +1,4 @@
 package com.library.controller;
-
-public class PaymentController {
-import com.library.models.Fee;
 import com.library.models.Payment;
 import com.library.models.User;
 import com.library.models.request.PaymentDTO;
