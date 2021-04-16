@@ -1,4 +1,4 @@
-package com.library.DAO;
+package com.library.repo;
 
 import com.library.models.Fee;
 import com.library.models.User;
@@ -7,11 +7,11 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 import java.util.List;
 
-public interface FeeDao extends JpaRepository<Fee, Integer> {
+public interface FeeRepo extends JpaRepository<Fee, Integer> {
 
     List<Fee> findByFeeStatus(enums.FeeStatus feeStatus);
 
     List<Fee> findByFeeType(enums.FeeType feeType);
 
-    Fee findByUsername(String userName);
+    List<Fee> findByUsername(String userName);
 }
