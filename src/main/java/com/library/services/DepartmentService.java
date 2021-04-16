@@ -1,5 +1,6 @@
 package com.library.services;
 
+import com.library.controler.DepartmentController;
 import com.library.models.Book;
 import com.library.models.Department;
 import com.library.repo.BookRepo;
@@ -81,4 +82,21 @@ public class DepartmentService {
     public void createDepartment(Department newDept) {
         departmentRepo.save(newDept);
     }
+
+    public void deleteDepartment(String name) {
+        Department department = departmentRepo.findByNameEqualsIgnoreCase(name);
+        departmentRepo.delete(department);
+    }
+
+    public Set<Book> getBooksByName(String name) {
+        Department department = departmentRepo.findByNameEqualsIgnoreCase(name);
+        return department.getBooks();
+    }
+
+    public void updateName(DepartmentController.UpdateForm updateForm) {
+        Department department = departmentRepo.findByNameEqualsIgnoreCase(updateForm.getFrom());
+        department.setName(updateForm.getTo());
+        departmentRepo.save(department);
+    }
+
 }

@@ -7,4 +7,5 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping(value = "/fees",consumes = "application/json", produces = "application/json")
 public class FeeController {
 
+
 }
