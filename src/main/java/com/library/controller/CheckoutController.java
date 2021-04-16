@@ -2,12 +2,11 @@ package com.library.controller;
 
 import com.library.models.Checkout;
 import com.library.services.CheckoutService;
-import com.library.util.AuthorityUtil;
+
 import static com.library.util.AuthorityUtil.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -34,10 +33,21 @@ public class CheckoutController {
         if(checkout == null)
             return ResponseEntity.badRequest().build();
         if(isPatron())
-            return new ResponseEntity<>(checkout, HttpStatus.OK);
+            return ResponseEntity.ok(checkoutService.getById(Integer.parseInt(id)));
 
         return ResponseEntity.badRequest().build();
     }
 
+
+    @PostMapping
+    public ResponseEntity<Checkout> insertCheckout(@RequestBody Checkout checkout){
+        if(checkout.getBook() == null){
+            return ResponseEntity.unprocessableEntity().build();
+        }
+        if(isPatron() || isEmployee()){
+            checkoutService.save(checkout);
+        }
+        return ResponseEntity.status(201).body(checkoutService.getById(1));
+    }
 
 }

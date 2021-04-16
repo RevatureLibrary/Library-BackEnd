@@ -1,4 +1,4 @@
-package com.library.DAO;
+package com.library.repo;
 
 import com.library.models.Book;
 import com.library.models.Checkout;
@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.Query;
 
 import java.util.List;
 
-public interface CheckoutDao extends JpaRepository<Checkout, Integer> {
+public interface CheckoutRepo extends JpaRepository<Checkout, Integer> {
     public Checkout getByBook(Book book);
    // @Query("SELECT * FROM Checkout co where user_id  = ?1")
     public List<Checkout> getByUser(User user);

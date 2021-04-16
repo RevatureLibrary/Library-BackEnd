@@ -1,4 +1,4 @@
-package com.library.controler;
+package com.library.controller;
 
 import com.library.models.request.LoginAttempt;
 import com.library.models.response.LoginResponse;
@@ -12,7 +12,8 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
-@RestController
+
+@RestController @CrossOrigin(origins = "*")
 public class LoginController {
     @Autowired
     JwtUserDetailsService userDetailsService;
@@ -21,7 +22,7 @@ public class LoginController {
     @Autowired
     private JWTUtil jwTokenUtil;
 
-    @RequestMapping(value = "/library/authentication", method = RequestMethod.POST)
+    @PostMapping(value = "/library/authentication")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginAttempt loginAttempt) throws Exception{
         try {
             authenticationManager.authenticate(
@@ -35,6 +36,9 @@ public class LoginController {
 
         return ResponseEntity.ok(new LoginResponse(jwt));
         }
+
+
+        
 
     }
 

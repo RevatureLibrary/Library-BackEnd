@@ -12,6 +12,7 @@ import org.springframework.stereotype.Service;
 import javax.transaction.Transactional;
 import java.util.HashSet;
 import java.util.List;
+import java.util.TreeSet;
 
 @Service
 public class BookService {
@@ -27,7 +28,7 @@ public class BookService {
 
     @Transactional
     public Book addBook(BookDTO book) {
-        HashSet<Department> dep = departmentService.parseBookDTODepartments(book.getDepartments());
+        TreeSet<Department> dep = departmentService.parseBookDTODepartments(book.getDepartments());
         Book result = new Book(book);
         result.setDepartments(dep);
         if(dep.isEmpty())
