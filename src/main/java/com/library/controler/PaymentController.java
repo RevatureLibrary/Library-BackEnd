@@ -27,11 +27,11 @@ public class PaymentController {
 
     @PostMapping()
     public ResponseEntity<Payment> register(@RequestBody PaymentDTO payment) throws Exception{
-        if(payment.getAmount()==0 ||payment.getFeesPaid()==null || payment.getUser()==null)
+        if(payment.getAmount()==0 ||payment.getFeesPaid()==null)
             return ResponseEntity.unprocessableEntity().build();
 
         else {
-            paymentService.makePayment(payment.getAmount(), payment.getFeesPaid(), payment.getUser());
+            paymentService.makePayment(payment.getAmount(), payment.getFeesPaid(), payment.getUserId());
         }
         return ResponseEntity.status(201).body(paymentService.getPaymentById(payment.getId()));
     }

@@ -21,10 +21,13 @@ public class PaymentService {
     FeeDao feeDao;
     @Autowired
     UserService userService;
+    @Autowired
+    UserDao userDao;
 
-    public void makePayment(double amount, ArrayList<Fee> feeID, User user){
+    public void makePayment(double amount, ArrayList<Fee> feeID, int userId){
         Payment paymentToBeMade = new Payment();
         paymentToBeMade.setAmount(amount);
+        paymentToBeMade.setUser(userDao.getOne(userId));
 
         TreeSet<Fee> tempFeeSet = new TreeSet<>();
         for (Fee n : feeID){
@@ -33,7 +36,7 @@ public class PaymentService {
             temp.setFeeStatus(enums.FeeStatus.PAID);
         }
         paymentToBeMade.setFeesPaid(tempFeeSet);
-        paymentToBeMade.setUser(user);
+        //paymentToBeMade.setUser(user);
         paymentDao.save(paymentToBeMade);
     }
 
