@@ -34,9 +34,6 @@ public class UserService {
         userDao.save(newU);
     }
 
-
-
-
     public List<User> getAll() {
         return userDao.findAll();
     }
