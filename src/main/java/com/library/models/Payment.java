@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.Set;
 
 import java.util.Set;
 
@@ -22,16 +23,15 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
-
+  
     @ManyToOne
-    //@JsonIgnoreProperties(value = "payments")
     User user;
-
+  
     Double amount;
-    Timestamp time;
+  
     @OneToMany(mappedBy = "payment",targetEntity = Fee.class)
-    Set<Fee> feesPaid;
-    @OneToOne
-    User userId;
+    private Set<Fee> feesPaid;
+  
+    @CreationTimestamp
+    private Timestamp time;
 }
