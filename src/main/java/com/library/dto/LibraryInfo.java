@@ -9,7 +9,9 @@ import java.sql.Time;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class OpeningAndClosingTimeDTO {
+public class LibraryInfo {
+    String LibraryName;
     Time openingTime;
     Time closingTime;
+    Boolean isOpen;
 }
