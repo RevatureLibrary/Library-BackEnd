@@ -28,8 +28,8 @@ public class PaymentService {
 
         TreeSet<Fee> tempFeeSet = new TreeSet<>();
         for (Fee n : feeID){
-            tempFeeSet.add(feeDao.findByFeeId(n.getId()));
-            Fee temp = feeDao.findByFeeId(n.getId());
+            tempFeeSet.add(feeDao.findById(n.getId()));
+            Fee temp = feeDao.findById(n.getId());
             temp.setFeeStatus(enums.FeeStatus.PAID);
         }
         paymentToBeMade.setFeesPaid(tempFeeSet);
@@ -37,7 +37,7 @@ public class PaymentService {
         paymentDao.save(paymentToBeMade);
     }
 
-    public List<Payment> getAllPaymentsMadeByUser(int userId){return paymentDao.paymentsMadeByUser(userId);}
+    public List<Payment> getAllPaymentsMadeByUser(int userId){return paymentDao.findByUser(userId);}
 
     public Payment getPaymentById(int paymentId){
         return paymentDao.getOne(paymentId);

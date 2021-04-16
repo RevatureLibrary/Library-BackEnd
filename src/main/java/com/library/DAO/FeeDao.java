@@ -16,5 +16,5 @@ public interface FeeDao extends JpaRepository<Fee, Integer> {
 
     Set<Fee> getFeeByUserId (int id);
 
-    Fee findByFeeId(int id);
+    Fee findById(int id);
 }
