@@ -12,4 +12,6 @@ public interface FeeDao extends JpaRepository<User, Integer> {
     List<Fee> findByFeeStatus(enums.FeeStatus feeStatus);
 
     List<Fee> findByFeeType(enums.FeeType feeType);
+
+    User findByUsername(String userName);
 }
