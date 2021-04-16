@@ -13,21 +13,14 @@ import java.util.Set;
 @AllArgsConstructor
 @Data
 public class Library {
-
-    @Id @Column(name = "library_name")
-    String libraryName;
+    @Id
+    int id;
+    @Column(name = "library_name")
+    String name;
     @Column(name = "opening_time")
     private Time openingTime;
     @Column(name = "closing_time")
     private Time closingTime;
-    @Column(name = "is_open")
+    @Transient
     private boolean isOpen;
-    private int capacity;
-
-    @OneToMany
-    private Set<Department> departments;
-    @OneToMany
-    private Set<User> currentLibrarians;
-    @OneToMany
-    private Set<User> currentPatrons;
 }

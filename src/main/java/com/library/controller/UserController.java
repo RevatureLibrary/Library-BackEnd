@@ -1,8 +1,7 @@
-package com.library.controler;
+package com.library.controller;
 
 import com.library.models.User;
 import com.library.models.enums;
-import com.library.models.request.JWTUserDetails;
 import com.library.models.request.UserDTO;
 import com.library.services.UserService;
 import com.library.util.AuthorityUtil;
@@ -14,7 +13,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.library.util.AuthorityUtil.*;
 
 @RestController
-@RequestMapping(value = "/users",consumes = "application/json", produces = "application/json")
+@RequestMapping(value = {"library/users","**/users"},consumes = "application/json", produces = "application/json")
 public class UserController {
 
     @Autowired
