@@ -1,5 +1,6 @@
 package com.library.models;
 
+import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -10,6 +11,9 @@ import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
 
+import java.util.Set;
+
+
 @Entity
 @Data
 @NoArgsConstructor
@@ -19,15 +23,15 @@ public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private int id;
-
+  
     @ManyToOne
-    private User user;
-
-    private double amount;
-
+    User user;
+  
+    Double amount;
+  
+    @OneToMany(mappedBy = "payment",targetEntity = Fee.class)
+    private Set<Fee> feesPaid;
+  
     @CreationTimestamp
     private Timestamp time;
-
-    @OneToMany
-    private Set<Fee> feesPaid;
 }

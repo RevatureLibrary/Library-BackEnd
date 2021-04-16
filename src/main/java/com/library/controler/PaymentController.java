@@ -1,5 +1,6 @@
 package com.library.controler;
 
+public class PaymentController {
 import com.library.models.Fee;
 import com.library.models.Payment;
 import com.library.models.User;
