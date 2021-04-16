@@ -20,12 +20,16 @@ public class Checkout {
     private transient LocalDateTime now = LocalDateTime.now();
     private Timestamp checkoutDate;
     private Timestamp returnDueDate;
-    @OneToOne
+    @ManyToOne
     @JoinColumn(name="book_id")
     private Book book;
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
+    @OneToOne(mappedBy = "checkout")
+    private Fee fee;
+    @Enumerated
+    private enums.CheckoutStatus checkoutStatus = enums.CheckoutStatus.DUE;
 
     public Checkout(){
         returnDueDate = Timestamp.valueOf(now.plusDays(14));
