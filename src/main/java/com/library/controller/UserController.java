@@ -10,6 +10,9 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+import java.util.Set;
+
 import static com.library.util.AuthorityUtil.*;
 
 @RestController
@@ -39,6 +42,18 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
 
         return ResponseEntity.badRequest().build();
+    }
+    @GetMapping(path="/search={username}")
+    public @ResponseBody ResponseEntity<?>
+    searchByUsername(@PathVariable String username) {
+        List<User> user = userService.searchByUsername(username);
+        if (user == null)
+            return ResponseEntity.badRequest().build();
+
+        if (isEmployee())
+            return new ResponseEntity<>(user, HttpStatus.OK);
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
     @GetMapping(path="/username={username}")
     public @ResponseBody ResponseEntity<User>

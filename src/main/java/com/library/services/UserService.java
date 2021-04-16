@@ -9,6 +9,7 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Set;
 
 @Service
 public class UserService {
@@ -70,5 +71,9 @@ public class UserService {
 
     public void delete(int id) {
         userRepo.deleteById(id);
+    }
+
+    public List<User> searchByUsername(String username) {
+      return userRepo.findByUsernameContainsIgnoreCase(username);
     }
 }
