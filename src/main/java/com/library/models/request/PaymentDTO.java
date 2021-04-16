@@ -9,13 +9,15 @@ import lombok.NoArgsConstructor;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import java.sql.Timestamp;
+import java.util.ArrayList;
 import java.util.Set;
 
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class PaymentDTO {
+    private int id;
     private User user;
     private double amount;
-    private Set<Fee> feesPaid;
+    private ArrayList<Fee> feesPaid;
 }

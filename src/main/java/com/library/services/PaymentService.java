@@ -1,36 +1,45 @@
 package com.library.services;
 
+import com.library.DAO.FeeDao;
 import com.library.DAO.PaymentDao;
 import com.library.DAO.UserDao;
 import com.library.models.Fee;
 import com.library.models.Payment;
+import com.library.models.User;
+import com.library.models.enums;
 import com.library.models.request.PaymentDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 @Service
 public class PaymentService {
     @Autowired
     PaymentDao paymentDao;
+    @Autowired
+    FeeDao feeDao;
+    @Autowired
     UserService userService;
 
-    public void makePayment(double amount, ArrayList<Integer> feeID, int userId){
+    public void makePayment(double amount, ArrayList<Fee> feeID, User user){
         Payment paymentToBeMade = new Payment();
         paymentToBeMade.setAmount(amount);
 
-        HashSet<Fee> tempFeeSet = new HashSet();
-        for (int n : feeID){
-            //TODO: use the FeeDao to fetch fee objects from the fee table using the set of feeId integers provided in
-            // the parameter of the method and add it to the tempFeeSet object
+        TreeSet<Fee> tempFeeSet = new TreeSet<>();
+        for (Fee n : feeID){
+            tempFeeSet.add(feeDao.findByFeeId(n.getId()));
+            Fee temp = feeDao.findByFeeId(n.getId());
+            temp.setFeeStatus(enums.FeeStatus.PAID);
         }
         paymentToBeMade.setFeesPaid(tempFeeSet);
-        paymentToBeMade.setUser(userService.readById(userId));
+        paymentToBeMade.setUser(user);
+        paymentDao.save(paymentToBeMade);
     }
 
     public List<Payment> getAllPaymentsMadeByUser(int userId){return paymentDao.paymentsMadeByUser(userId);}
+
+    public Payment getPaymentById(int paymentId){
+        return paymentDao.getOne(paymentId);
+    }
 }
