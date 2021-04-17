@@ -39,6 +39,8 @@ public class CheckoutController {
         return ResponseEntity.badRequest().build();
     }
 
+
+
     @PostMapping
     public ResponseEntity<Checkout> insertCheckout(@RequestBody Checkout checkout){
         if(checkout.getBook() == null){
