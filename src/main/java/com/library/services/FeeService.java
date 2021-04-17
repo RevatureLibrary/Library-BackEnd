@@ -1,8 +1,9 @@
 package com.library.services;
 
-import com.library.models.User;
+import com.library.models.Fee;
 import com.library.models.enums;
-import com.library.models.request.UserDTO;
+import com.library.repo.FeeRepo;
+import com.library.models.request.FeeDTO;
 import com.library.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
@@ -11,65 +12,49 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 @Service
-public class UserService {
+public class FeeService {
     @Autowired
-    UserRepo userRepo;
+    FeeRepo feeRepo;
 
-    public void register(UserDTO user) {
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        User newU = new User(user);
-        newU.setAccountType(enums.AccountType.PATRON);
-        userRepo.save(newU);
+    public List<Fee> getAll() {
+        return feeRepo.findAll();
     }
 
-    public void save(User user){
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        userRepo.save(user);
+    public List<Fee> readByFeeStatus(enums.FeeStatus feeStatus) {
+        return feeRepo.findByFeeStatus(feeStatus);
     }
 
-    public void hire(UserDTO user) {
-        user.setPassword(new BCryptPasswordEncoder().encode(user.getPassword()));
-        User newU = new User(user);
-        newU.setAccountType(enums.AccountType.LIBRARIAN);
-        userRepo.save(newU);
+    public List<Fee> readByFeeType(enums.FeeType feeType) {
+        return feeRepo.findByFeeType(feeType);
     }
 
-    public List<User> getAll() {
-        return userRepo.findAll();
-    }
-
-    public List<User> readByAccountType(enums.AccountType librarian) {
-        return userRepo.findByAccountType(librarian);
-    }
-
-    public User readByUsername(String userName) {
-        return userRepo.findByUsername(userName);
-    }
-
-    public User readById(int parseInt) {
-        return userRepo.findById(parseInt).get();
+    public List<Fee> getByUserName(String name) {
+        return feeRepo.findByUsername(name);
     }
 
     public void update(Fee fee, FeeDTO body) {
 
-        if((body.getUsername()!=null) &&
-                !body.getUsername().equals(u.getUsername())) u.setUsername(body.getUsername());
+        if((body.getAssessed()!=null) &&
+                !body.getAssessed().equals(fee.getAssessed())) fee.setAssessed(body.getAssessed());
 
-        if((body.getFirstName()!=null) &&
-                !body.getFirstName().equals(u.getFirstName())) u.setFirstName(body.getFirstName());
+        if((body.getResolved()!=null) &&
+                !body.getResolved().equals(fee.getResolved())) fee.setResolved(body.getResolved());
 
-        if((body.getLastName()!=null) &&
-                !body.getLastName().equals(u.getLastName())) u.setLastName(body.getLastName());
+        if((body.getAmount()!=0.0) &&
+                body.getAmount() != fee.getAmount()) fee.setAmount(body.getAmount());
 
-        if((body.getEmail()!=null) &&
-                !body.getEmail().equals(u.getEmail())) u.setEmail(body.getEmail());
+        if((body.getFeeStatus()!=null) &&
+                !body.getFeeStatus().equals(fee.getFeeStatus())) fee.setFeeStatus(body.getFeeStatus());
 
-        userRepo.save(u);
+        if((body.getFeeType()!=null) &&
+                !body.getFeeType().equals(fee.getFeeType())) fee.setFeeType(body.getFeeType());
+
+        feeRepo.save(fee);
 
     }
 
     public void delete(int id) {
-        userRepo.deleteById(id);
+        feeRepo.deleteById(id);
     }
 }
 
