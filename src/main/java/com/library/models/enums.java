@@ -35,6 +35,6 @@ public class enums {
     }
 
     public enum BookStatus{
-        AVAILABLE, CHECKED_OUT, RETURNED
+        AVAILABLE, CHECKED_OUT, OFF_SHELF
     }
 }

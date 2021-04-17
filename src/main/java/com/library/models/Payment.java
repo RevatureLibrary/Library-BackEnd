@@ -4,10 +4,15 @@ import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
 import java.util.Set;
+
+import java.util.Set;
+
 
 @Entity
 @Data
@@ -17,14 +22,16 @@ import java.util.Set;
 public class Payment {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    int id;
-
+    private int id;
+  
     @ManyToOne
-    //@JsonIgnoreProperties(value = "payments")
     User user;
-
+  
     Double amount;
-    Timestamp time;
+  
     @OneToMany(mappedBy = "payment",targetEntity = Fee.class)
-    Set<Fee> feesPaid;
+    private Set<Fee> feesPaid;
+  
+    @CreationTimestamp
+    private Timestamp time;
 }

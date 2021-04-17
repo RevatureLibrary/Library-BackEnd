@@ -6,6 +6,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 public interface DepartmentRepo extends JpaRepository<Department, Integer> {
 
 
-    Department findByNameIgnoreCase(String name);
+    Department findByNameEqualsIgnoreCase(String name);
 
 }

@@ -1,13 +1,12 @@
-package com.library.controler;
+package com.library.controller;
 
 import com.library.models.Checkout;
 import com.library.services.CheckoutService;
-import com.library.util.AuthorityUtil;
+
 import static com.library.util.AuthorityUtil.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -40,7 +39,6 @@ public class CheckoutController {
     }
 
 
-
     @PostMapping
     public ResponseEntity<Checkout> insertCheckout(@RequestBody Checkout checkout){
         if(checkout.getBook() == null){
@@ -51,6 +49,5 @@ public class CheckoutController {
         }
         return ResponseEntity.status(201).body(checkoutService.getById(1));
     }
-
 
 }
