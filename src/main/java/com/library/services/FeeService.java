@@ -4,9 +4,7 @@ import com.library.models.Fee;
 import com.library.models.enums;
 import com.library.repo.FeeRepo;
 import com.library.models.request.FeeDTO;
-import com.library.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
