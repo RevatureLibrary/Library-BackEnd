@@ -6,6 +6,8 @@ import com.library.repo.LibraryRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.Optional;
+
 
 @Service
 public class LibraryService {
@@ -27,7 +29,11 @@ public class LibraryService {
 //    }
 
     public Library getLibrary() {
-        return libraryRepo.findById(1).get();
+        Optional<Library> library = libraryRepo.findById(1);
+        return library.orElse(null);
     }
 
+    public void update(Library library) {
+        libraryRepo.save(library);
+    }
 }

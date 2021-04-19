@@ -26,7 +26,7 @@ public class Checkout {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
-    @OneToOne(mappedBy = "checkout")
+    @OneToOne
     private Fee fee;
     @Enumerated
     private enums.CheckoutStatus checkoutStatus = enums.CheckoutStatus.DUE;
