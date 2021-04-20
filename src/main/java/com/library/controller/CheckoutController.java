@@ -87,12 +87,12 @@ public class CheckoutController {
             return ResponseEntity.notFound().build();
         }
         checkout.setCheckoutStatus(enums.CheckoutStatus.RETURNED);
-        Timestamp dateReturned = Timestamp.valueOf(LocalDateTime.now().plusDays(20));
+        Timestamp dateReturned = Timestamp.valueOf(LocalDateTime.now());
         if(dateReturned.after(checkout.getReturnDueDate())){
             Fee fee = new Fee(0, dateReturned, null, 2.50d, enums.FeeType.LATE, enums.FeeStatus.UNPAID, checkout.getUser(), null);
             checkout.setFee(fee);
         }
-        checkout.getBook().setBookStatus(enums.BookStatus.)
+        checkout.getBook().setBookStatus(enums.BookStatus.OFF_SHELF);
         checkoutService.returnCheckout(checkout);
         return new ResponseEntity<>(checkout, HttpStatus.OK);
     }
