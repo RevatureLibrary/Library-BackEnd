@@ -17,7 +17,7 @@ import java.util.Set;
 @NoArgsConstructor
 public class PaymentDTO {
     private int id;
-    private int userId;
+    private String userName;
     private double amount;
     private ArrayList<Integer> feesPaid;
 }

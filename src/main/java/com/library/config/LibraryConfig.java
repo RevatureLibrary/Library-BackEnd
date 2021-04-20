@@ -1,9 +1,7 @@
 package com.library.config;
 
-import com.library.models.Department;
-import com.library.models.Library;
-import com.library.models.User;
-import com.library.models.enums;
+import com.library.models.*;
+import com.library.repo.FeeDao;
 import com.library.services.DepartmentService;
 import com.library.services.LibraryService;
 import com.library.services.UserService;
@@ -22,6 +20,8 @@ public class LibraryConfig {
     final private LibraryService libraryService;
     final  private UserService userService;
     final  private DepartmentService departmentService;
+    @Autowired
+    FeeDao feeDao;
 
     @Autowired
     public LibraryConfig(LibraryService libraryService, @Lazy UserService userService, DepartmentService departmentService) {
@@ -34,6 +34,7 @@ public class LibraryConfig {
         seedDepartmentTable();
         seedLibraryTable();
         seedUsersTable();
+        seedFeeTable();
 
     }
 
@@ -82,5 +83,14 @@ public class LibraryConfig {
             System.out.println("Admin exists");
 //                logger.info("Users Seeding Not Required");
         }
+    }
+
+    private void seedFeeTable(){
+        Fee f = new Fee();
+        f.setFeeStatus(enums.FeeStatus.UNPAID);
+        f.setAmount(10.00);
+        f.setUser(userService.readByUsername("admin"));
+        f.setFeeType(enums.FeeType.LATE);
+        feeDao.save(f);
     }
 }
