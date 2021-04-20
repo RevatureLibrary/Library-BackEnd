@@ -1,6 +1,5 @@
 package com.library.util;
 
-import com.library.models.request.JWTUserDetails;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.context.SecurityContext;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -18,7 +17,7 @@ public class AuthorityUtil {
 
         public static SecurityContext getSecurityContext(){ return SecurityContextHolder.getContext();}
 
-        public static String getRequesterUsername(){ return ((JWTUserDetails) getSecurityContext()).getUsername();}
+        public static String getRequesterUsername(){ return (String) getSecurityContext().getAuthentication().getPrincipal();}
 
         public static SimpleGrantedAuthority getAuth(){
          return (SimpleGrantedAuthority) getSecurityContext()

@@ -1,10 +1,12 @@
 package com.library.controller;
 
+import com.library.models.User;
 import com.library.models.request.LoginAttempt;
 import com.library.models.response.LoginResponse;
-import com.library.services.JwtUserDetailsService;
+import com.library.services.UserService;
 import com.library.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -12,35 +14,29 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import static com.library.util.AuthorityUtil.getAuth;
 
-@RestController @CrossOrigin(origins = "*")
+
+@RestController @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
     @Autowired
-    JwtUserDetailsService userDetailsService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JWTUtil jwTokenUtil;
+    UserService userService;
+
 
     @PostMapping(value = "/library/authentication")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginAttempt loginAttempt) throws Exception{
+        LoginResponse login = null;
+        System.out.println(loginAttempt);
+        System.out.println(getAuth());
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginAttempt.getUsername(), loginAttempt.getPassword()));
+            login = userService.login(loginAttempt);
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password");
-        }
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(loginAttempt.getUsername());
-        final  String jwt = jwTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new LoginResponse(jwt));
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
 
-
-        
-
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(login);
     }
+}
 
 
 

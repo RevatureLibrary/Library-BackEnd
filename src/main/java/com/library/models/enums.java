@@ -2,18 +2,16 @@ package com.library.models;
 
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.Set;
+
 public class enums {
     public enum AccountType{
         PATRON, LIBRARIAN, ADMIN;
 
-        public SimpleGrantedAuthority toAuth(){
-            if (this == ADMIN)
-                return new SimpleGrantedAuthority("ADMIN");
-            else if(this == PATRON)
-                return new SimpleGrantedAuthority("PATRON");
-            else if (this == LIBRARIAN)
-                return new SimpleGrantedAuthority("LIBRARIAN");
-            else return null;
+        public Set<SimpleGrantedAuthority> toAuth(){
+            return Collections.singleton(new SimpleGrantedAuthority(this.toString()));
         }
 
     }

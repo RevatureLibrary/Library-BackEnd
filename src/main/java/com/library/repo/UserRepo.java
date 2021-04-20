@@ -11,5 +11,7 @@ import java.util.List;
         User findByUsername(String username);
 
         List<User> findByAccountType(enums.AccountType accountType);
+
+        List<User> findByUsernameContainsIgnoreCase(String username);
     }
 
