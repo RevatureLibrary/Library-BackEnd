@@ -19,5 +19,5 @@ public class PaymentDTO {
     private int id;
     private int userId;
     private double amount;
-    private ArrayList<Fee> feesPaid;
+    private ArrayList<Integer> feesPaid;
 }
