@@ -17,9 +17,7 @@ public class BookDTO {
     String author;
     String publisher;
     enums.Condition condition;
-
     enums.BookStatus bookStatus;
-
     String[] departments;
 
 }

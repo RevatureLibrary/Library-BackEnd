@@ -1,4 +1,5 @@
 package com.library.models;
+import com.library.models.request.CheckoutDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 
@@ -17,7 +18,7 @@ public class Checkout {
     private int id;
     // The transient keyword makes it so that Hibernate won't persist the now field
     // as a column in the database
-    private transient LocalDateTime now = LocalDateTime.now();
+    private transient LocalDateTime now;
     private Timestamp checkoutDate;
     private Timestamp returnDueDate;
     @ManyToOne
@@ -29,10 +30,19 @@ public class Checkout {
     @OneToOne
     private Fee fee;
     @Enumerated
-    private enums.CheckoutStatus checkoutStatus = enums.CheckoutStatus.DUE;
+    private enums.CheckoutStatus checkoutStatus;
 
     public Checkout(){
+        now = LocalDateTime.now();
         returnDueDate = Timestamp.valueOf(now.plusDays(14));
         checkoutDate = Timestamp.valueOf(now);
+        checkoutStatus = enums.CheckoutStatus.DUE;
+    }
+
+    public Checkout(CheckoutDTO checkoutDTO){
+        now = LocalDateTime.now();
+        checkoutDate = Timestamp.valueOf(now);
+        returnDueDate = Timestamp.valueOf(now.plusDays(14));
+        checkoutStatus = enums.CheckoutStatus.DUE;
     }
 }

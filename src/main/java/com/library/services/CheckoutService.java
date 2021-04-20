@@ -1,5 +1,6 @@
 package com.library.services;
 
+import com.library.models.request.CheckoutDTO;
 import com.library.repo.CheckoutRepo;
 import com.library.models.Book;
 import com.library.models.Checkout;
@@ -30,9 +31,11 @@ public class CheckoutService {
         return checkoutDao.getByUser(user);
     }
 
-    public void save(Checkout checkout){
+    public void checkoutBook(Checkout checkout){
         checkoutDao.save(checkout);
     }
+
+    public void save(Checkout checkout){ checkoutDao.save(checkout); }
 
     public void delete(Checkout checkout){
         checkoutDao.delete(checkout);
@@ -42,11 +45,8 @@ public class CheckoutService {
         checkoutDao.deleteById(id);
     }
 
-    public void update(Checkout checkout){
-        // save is backed up by merge
-        // so if there is an object with the same
-        // id in the database it will be updated
-        // otherwise it will save it as a new entry
+    public void returnCheckout(Checkout checkout){
+        //
         checkoutDao.save(checkout);
     }
 
