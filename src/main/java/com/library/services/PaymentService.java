@@ -3,10 +3,8 @@ package com.library.services;
 
 import com.library.models.Fee;
 import com.library.models.Payment;
-import com.library.models.User;
 import com.library.models.enums;
-import com.library.models.request.PaymentDTO;
-import com.library.repo.FeeDao;
+import com.library.repo.FeeRepo;
 import com.library.repo.PaymentDao;
 import com.library.repo.UserRepo;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -19,7 +17,7 @@ public class PaymentService {
     @Autowired
     PaymentDao paymentDao;
     @Autowired
-    FeeDao feeDao;
+    FeeRepo feeRepo;
     @Autowired
     UserService userService;
     @Autowired
@@ -32,8 +30,8 @@ public class PaymentService {
 
         TreeSet<Fee> tempFeeSet = new TreeSet<>();
         for (Fee n : feeID){
-            tempFeeSet.add(feeDao.findById(n.getId()));
-            Fee temp = feeDao.findById(n.getId());
+            tempFeeSet.add(feeRepo.findById(n.getId()));
+            Fee temp = feeRepo.findById(n.getId());
             temp.setFeeStatus(enums.FeeStatus.PAID);
         }
         paymentToBeMade.setFeesPaid(tempFeeSet);
