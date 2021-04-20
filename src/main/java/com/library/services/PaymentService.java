@@ -21,29 +21,21 @@ public class PaymentService {
     @Autowired
     FeeDao feeDao;
     @Autowired
-    UserService userService;
-    @Autowired
     UserRepo userDao;
 
-    public void makePayment(double amount, ArrayList<Fee> feeID, int userId){
+    public void makePayment(double amount, ArrayList<Integer> feeID, int userId){
         Payment paymentToBeMade = new Payment();
         paymentToBeMade.setAmount(amount);
         paymentToBeMade.setUser(userDao.getOne(userId));
 
         TreeSet<Fee> tempFeeSet = new TreeSet<>();
-        for (Fee n : feeID){
-            tempFeeSet.add(feeDao.findById(n.getId()));
-            Fee temp = feeDao.findById(n.getId());
+        for (int n : feeID){
+            Fee temp = feeDao.getOne(n);
             temp.setFeeStatus(enums.FeeStatus.PAID);
+            feeDao.save(temp);
+            tempFeeSet.add(temp);
         }
         paymentToBeMade.setFeesPaid(tempFeeSet);
-        //paymentToBeMade.setUser(user);
         paymentDao.save(paymentToBeMade);
-    }
-
-    public List<Payment> getAllPaymentsMadeByUser(String username){return paymentDao.findByUser_username(username);}
-
-    public Payment getPaymentById(int paymentId){
-        return paymentDao.getOne(paymentId);
     }
 }
