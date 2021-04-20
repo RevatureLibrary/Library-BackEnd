@@ -22,13 +22,14 @@ import java.time.LocalDateTime;
 public class CheckoutController {
     @Autowired
     CheckoutService checkoutService;
-     @Autowired
-     FeeService feeService;
+    @Autowired
+    FeeService feeService;
     @Autowired
     BookService bookService;
     @Autowired
     UserService userService;
 
+    // works
     @GetMapping
     public ResponseEntity<?> getAllCheckouts(){
         // You can retrieve the username, password, etc.
@@ -40,6 +41,7 @@ public class CheckoutController {
             return ResponseEntity.badRequest().build();
     }
 
+    // works
     @GetMapping(path="/{id}")
     public @ResponseBody
     ResponseEntity<Checkout> getById(@PathVariable String id){
@@ -53,6 +55,7 @@ public class CheckoutController {
     }
 
 
+    // works
     @PostMapping()
     public ResponseEntity<Checkout> insertCheckout(@RequestBody CheckoutDTO checkoutDTO){
 
@@ -75,45 +78,34 @@ public class CheckoutController {
     }
 
     // This is for a User returning a book
-    @PutMapping()
-    public ResponseEntity<Checkout> updateCheckout(@RequestBody Checkout checkout){
-        Integer id = checkout.getId();
-        checkout = checkoutService.getById(id);
+    // TODO: Consider changing path
+    @PutMapping(path="/{id}")
+    public ResponseEntity<Checkout> updateCheckout(@PathVariable String id){
+
+        Checkout checkout = checkoutService.getById(Integer.parseInt(id));
         if(checkout == null){
             return ResponseEntity.notFound().build();
         }
         checkout.setCheckoutStatus(enums.CheckoutStatus.RETURNED);
-        Timestamp dateReturned = Timestamp.valueOf(LocalDateTime.now());
+        Timestamp dateReturned = Timestamp.valueOf(LocalDateTime.now().plusDays(20));
         if(dateReturned.after(checkout.getReturnDueDate())){
             Fee fee = new Fee(0, dateReturned, null, 2.50d, enums.FeeType.LATE, enums.FeeStatus.UNPAID, checkout.getUser(), null);
             checkout.setFee(fee);
         }
+        checkout.getBook().setBookStatus(enums.BookStatus.)
         checkoutService.returnCheckout(checkout);
-        return new ResponseEntity<>(checkout, HttpStatus.OK);
-    }
-
-    //TODO: Consider changing the path
-    @DeleteMapping()
-    public ResponseEntity<?> deleteCheckout(@RequestBody Checkout checkout){
-
-        if(checkout == null){
-            return ResponseEntity.unprocessableEntity().build();
-        }
-        if(isEmployee() || isAdmin()){
-            checkoutService.delete(checkout);
-        }
         return new ResponseEntity<>(checkout, HttpStatus.OK);
     }
 
     // TODO: Consider changing the path
     @DeleteMapping(path="/{id}")
-    public ResponseEntity<Checkout> deleteById(@PathVariable int id){
-        Checkout checkout = checkoutService.getById(id);
+    public ResponseEntity<Checkout> deleteById(@PathVariable String id){
+        Checkout checkout = checkoutService.getById(Integer.parseInt(id));
         if(checkout == null){
             return ResponseEntity.notFound().build();
         }
         if(isEmployee() || isPatron() || isAdmin()){
-            checkoutService.deleteById(id);
+            checkoutService.deleteById(Integer.parseInt(id));
             return new ResponseEntity<>(checkout, HttpStatus.OK);
         }
 

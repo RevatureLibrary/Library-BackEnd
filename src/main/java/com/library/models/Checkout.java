@@ -27,7 +27,7 @@ public class Checkout {
     @ManyToOne
     @JoinColumn(name="user_id")
     private User user;
-    @OneToOne
+    @OneToOne(cascade={CascadeType.ALL})
     private Fee fee;
     @Enumerated
     private enums.CheckoutStatus checkoutStatus;
