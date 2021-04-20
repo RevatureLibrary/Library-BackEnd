@@ -18,6 +18,5 @@ public class CheckoutDTO {
     private Timestamp checkoutDate;
     private Timestamp returnDueDate;
     private String username;
-    private Integer BookId;
-    private Integer feeId;
+    private Integer bookId;
 }

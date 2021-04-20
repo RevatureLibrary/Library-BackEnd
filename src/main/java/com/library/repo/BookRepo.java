@@ -8,7 +8,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 
 public interface BookRepo extends JpaRepository<Book, Integer> {
-
+    Book getById(Integer id);
 
     Page<Book> findAllByDepartments_NameContains(String name, PageRequest of);
 }
