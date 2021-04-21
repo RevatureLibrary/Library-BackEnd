@@ -1,4 +1,4 @@
-package com.library.models.request;
+package com.library.models.dto;
 
 import com.library.models.Book;
 import com.library.models.Fee;
