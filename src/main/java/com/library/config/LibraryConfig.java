@@ -1,9 +1,8 @@
 package com.library.config;
 
-import com.library.models.Department;
-import com.library.models.Library;
-import com.library.models.User;
-import com.library.models.enums;
+import com.library.models.*;
+import com.library.models.request.BookDTO;
+import com.library.services.BookService;
 import com.library.services.DepartmentService;
 import com.library.services.LibraryService;
 import com.library.services.UserService;
@@ -15,6 +14,7 @@ import org.springframework.context.event.EventListener;
 
 import javax.annotation.PostConstruct;
 import java.sql.Time;
+import java.util.HashSet;
 
 @Configuration
 public class LibraryConfig {
@@ -22,19 +22,21 @@ public class LibraryConfig {
     final private LibraryService libraryService;
     final  private UserService userService;
     final  private DepartmentService departmentService;
+    final private BookService bookService;
 
     @Autowired
-    public LibraryConfig(LibraryService libraryService, @Lazy UserService userService, DepartmentService departmentService) {
+    public LibraryConfig(LibraryService libraryService, @Lazy UserService userService, DepartmentService departmentService, BookService bookService) {
         this.libraryService = libraryService;
         this.userService = userService;
         this.departmentService = departmentService;
+        this.bookService = bookService;
     }
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedDepartmentTable();
         seedLibraryTable();
         seedUsersTable();
-
+        seedBooksTable();
     }
 
     private void seedDepartmentTable() {
@@ -76,6 +78,13 @@ public class LibraryConfig {
             user.setAccountType(enums.AccountType.ADMIN);
 //                user.setConfirmEmail(true);
             userService.save(user);
+            user.setFirstName("Patrick");
+            user.setLastName("Gonzalez");
+            user.setUsername("pgonzalez");
+            user.setEmail("patrick.gonzalez@revature.net");
+            user.setPassword("password");
+            user.setAccountType(enums.AccountType.PATRON);
+            userService.save(user);
 //                logger.info("Users Seeded");
         } else {
 
@@ -83,4 +92,17 @@ public class LibraryConfig {
 //                logger.info("Users Seeding Not Required");
         }
     }
+
+    private void seedBooksTable(){
+        if(bookService.getAll() != null){
+            BookDTO bookDTO = new BookDTO(0, 42,
+                    "The Hitchhiker's Guide to the Galaxy",
+                    "Douglas Adams", "Pan Books",
+                    enums.Condition.GOOD, enums.BookStatus.AVAILABLE,
+                    new String[]{"Sci-Fi"});
+
+            bookService.addBook(bookDTO);
+        }
+    }
+
 }

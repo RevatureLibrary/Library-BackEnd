@@ -45,7 +45,7 @@ public class HibernateConfig {
     public DataSource dataSource() {
         DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
         dataSourceBuilder.driverClassName("org.postgresql.Driver");
-        dataSourceBuilder.url("jdbc:postgresql://localhost:5432/");
+        dataSourceBuilder.url("jdbc:postgresql://test.chxdvrntu7bg.us-east-2.rds.amazonaws.com:5432/postgres");
         dataSourceBuilder.username("postgres");
         dataSourceBuilder.password("password");
         return dataSourceBuilder.build();
