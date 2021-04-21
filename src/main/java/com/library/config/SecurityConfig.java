@@ -2,7 +2,7 @@ package com.library.config;
 
 import com.library.filter.JwtRequestFilter;
 import com.library.models.User;
-import com.library.models.request.JWTUserDetails;
+import com.library.models.dto.JWTUserDetails;
 import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

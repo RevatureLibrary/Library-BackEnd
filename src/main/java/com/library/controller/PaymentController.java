@@ -1,8 +1,6 @@
 package com.library.controller;
 import com.library.models.Payment;
-import com.library.models.User;
-import com.library.models.request.PaymentDTO;
-import com.library.models.request.UserDTO;
+import com.library.models.dto.PaymentDTO;
 import com.library.services.PaymentService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -10,11 +8,6 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.ArrayList;
-
-import static com.library.util.AuthorityUtil.getAuth;
-import static com.library.util.AuthorityUtil.isEmployee;
 
 @RestController
 @RequestMapping(value = "/payment",consumes = "application/json", produces = "application/json")

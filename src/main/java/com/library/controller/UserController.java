@@ -2,7 +2,7 @@ package com.library.controller;
 
 import com.library.models.User;
 import com.library.models.enums;
-import com.library.models.request.UserDTO;
+import com.library.models.dto.UserDTO;
 import com.library.services.UserService;
 import com.library.util.AuthorityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,7 +11,6 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Set;
 
 import static com.library.util.AuthorityUtil.*;
 

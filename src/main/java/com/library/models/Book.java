@@ -1,7 +1,7 @@
 package com.library.models;
 
 import com.fasterxml.jackson.annotation.*;
-import com.library.models.request.BookDTO;
+import com.library.models.dto.BookDTO;
 import lombok.*;
 
 import javax.persistence.*;

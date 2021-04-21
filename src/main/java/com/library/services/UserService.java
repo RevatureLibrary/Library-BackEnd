@@ -2,25 +2,17 @@ package com.library.services;
 
 import com.library.models.User;
 import com.library.models.enums;
-import com.library.models.request.LoginAttempt;
-import com.library.models.request.UserDTO;
-import com.library.models.response.LoginResponse;
+import com.library.models.dto.LoginAttemptDTO;
+import com.library.models.dto.UserDTO;
+import com.library.models.dto.LoginResponseDTO;
 import com.library.repo.UserRepo;
 import com.library.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsPasswordService;
-import org.springframework.security.core.userdetails.UserDetailsService;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
-import java.util.Set;
 
 @Service
 public class UserService {
@@ -110,15 +102,12 @@ public class UserService {
       return userRepo.findByUsernameContainsIgnoreCase(username);
     }
 
-    public LoginResponse login(LoginAttempt loginAttempt) {
-        User activeUser = readByUsername(loginAttempt.getUsername());
-        System.out.println(activeUser);
-
-        System.out.println(loginAttempt);
+    public LoginResponseDTO login(LoginAttemptDTO loginAttemptDTO) {
+        User activeUser = readByUsername(loginAttemptDTO.getUsername());
         if
         (
                 activeUser == null ||
-                        !passwordEncoder.matches(loginAttempt.getPassword(),activeUser.getPassword())
+                        !passwordEncoder.matches(loginAttemptDTO.getPassword(),activeUser.getPassword())
         )
             throw new BadCredentialsException("Invalid username or password");
         else
@@ -126,13 +115,14 @@ public class UserService {
 
     }
 
-    public LoginResponse createSuccessfulLoginResponse(User user) {
-        return new LoginResponse(
+    public LoginResponseDTO createSuccessfulLoginResponse(User user) {
+        return new LoginResponseDTO(
                 user.getUsername(),
                 user.getFirstName(),
                 user.getLastName(),
                 user.getEmail(),
-                JWTUtil.generateToken(user)
+                JWTUtil.generateToken(user),
+                user.getAccountType().toString()
         );
 
     }

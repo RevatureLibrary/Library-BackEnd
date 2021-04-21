@@ -1,7 +1,7 @@
 package com.library.controller;
 
 import com.library.models.Book;
-import com.library.models.request.BookDTO;
+import com.library.models.dto.BookDTO;
 import com.library.services.BookService;
 import com.library.services.DepartmentService;
 import org.springframework.beans.factory.annotation.Autowired;
