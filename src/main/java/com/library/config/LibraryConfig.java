@@ -83,6 +83,7 @@ public class LibraryConfig {
             user.setAccountType(enums.AccountType.ADMIN);
 //                user.setConfirmEmail(true);
             userService.save(user);
+            user = new User();
             user.setFirstName("Patrick");
             user.setLastName("Gonzalez");
             user.setUsername("pgonzalez");
@@ -97,6 +98,7 @@ public class LibraryConfig {
 //                logger.info("Users Seeding Not Required");
         }
     }
+
 
     private void seedBooksTable(){
         if(bookService.getAll() != null){

@@ -44,7 +44,6 @@ public class Book {
                 this.condition = bookDTO.getCondition();
                 this.bookStatus = bookDTO.getBookStatus();
                 this.departments = new HashSet<>();
-
         }
 
 }

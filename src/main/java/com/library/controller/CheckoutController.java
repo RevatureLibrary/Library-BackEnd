@@ -2,6 +2,7 @@ package com.library.controller;
 
 import com.library.models.*;
 import com.library.models.request.CheckoutDTO;
+import com.library.repo.BookRepo;
 import com.library.services.BookService;
 import com.library.services.CheckoutService;
 
@@ -27,6 +28,8 @@ public class CheckoutController {
     @Autowired
     BookService bookService;
     @Autowired
+    BookRepo bookRepo;
+    @Autowired
     UserService userService;
 
     // works
@@ -41,7 +44,20 @@ public class CheckoutController {
             return ResponseEntity.badRequest().build();
     }
 
-    // works
+    @GetMapping(path="/username={username}")
+    public @ResponseBody
+    ResponseEntity<?> getByUsername(@PathVariable String username){
+        if(isPatron() || isEmployee() || isAdmin()){
+            User u = userService.readByUsername(username);
+            if(u == null){
+                return ResponseEntity.notFound().build();
+            }
+            return new ResponseEntity<>(checkoutService.getByUser(u), HttpStatus.OK);
+        }
+        return ResponseEntity.badRequest().build();
+    }
+
+    // This grabs by a certain Checkout Id
     @GetMapping(path="/{id}")
     public @ResponseBody
     ResponseEntity<Checkout> getById(@PathVariable String id){
@@ -70,8 +86,7 @@ public class CheckoutController {
             checkout.setUser(user);
             checkout.setBook(book);
             book.setBookStatus(enums.BookStatus.CHECKED_OUT);
-//            bookService.update(book);
-            // Might need to create Fee for checkout not sure
+            bookRepo.save(book);
             checkoutService.checkoutBook(checkout);
         }
         return new ResponseEntity<>(checkout, HttpStatus.OK);
@@ -83,6 +98,7 @@ public class CheckoutController {
     public ResponseEntity<Checkout> updateCheckout(@PathVariable String id){
 
         Checkout checkout = checkoutService.getById(Integer.parseInt(id));
+        Book book = checkout.getBook();
         if(checkout == null){
             return ResponseEntity.notFound().build();
         }
@@ -93,6 +109,7 @@ public class CheckoutController {
             checkout.setFee(fee);
         }
         checkout.getBook().setBookStatus(enums.BookStatus.OFF_SHELF);
+        bookRepo.save(book);
         checkoutService.returnCheckout(checkout);
         return new ResponseEntity<>(checkout, HttpStatus.OK);
     }

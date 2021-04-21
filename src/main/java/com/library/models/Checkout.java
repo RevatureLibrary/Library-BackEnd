@@ -21,7 +21,7 @@ public class Checkout {
     private transient LocalDateTime now;
     private Timestamp checkoutDate;
     private Timestamp returnDueDate;
-    @ManyToOne(cascade={CascadeType.ALL})
+    @ManyToOne
     @JoinColumn(name="book_id")
     private Book book;
     @ManyToOne
