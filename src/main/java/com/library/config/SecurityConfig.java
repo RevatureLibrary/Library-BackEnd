@@ -2,7 +2,7 @@ package com.library.config;
 
 import com.library.filter.JwtRequestFilter;
 import com.library.models.User;
-import com.library.models.request.JWTUserDetails;
+import com.library.models.dto.JWTUserDetails;
 import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
@@ -53,7 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     protected void configure(HttpSecurity http) throws Exception {
                 http.csrf().disable().cors().and().authorizeRequests()
                 .antMatchers("/library/authentication",
-                        "library/users",
+                        "/library/users",
+                        "/library/books",
+                        "/library/books/**",
                         "/v2/api-docs",
                         "/v2/api-docs",
                         "/v3/api-docs/**",

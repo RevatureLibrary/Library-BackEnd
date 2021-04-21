@@ -1,4 +1,4 @@
-package com.library.models.request;
+package com.library.models.dto;
 
 import com.library.models.enums;
 import lombok.AllArgsConstructor;

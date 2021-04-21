@@ -2,15 +2,15 @@ package com.library.services;
 
 import com.library.models.Book;
 import com.library.models.Department;
-import com.library.models.request.BookDTO;
+import com.library.models.dto.BookDTO;
 import com.library.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
-import java.util.HashSet;
 import java.util.List;
 import java.util.TreeSet;
 
@@ -39,8 +39,9 @@ public class BookService {
         return result;
     }
 
-    public Page<Book> getAllByDepartment(String page, String name) {
-        return bookRepo.findAllByDepartments_NameContains(name, PageRequest.of(Integer.parseInt(page),20));
+    public Page<Book> getAllByDepartment(String name,Integer page, Integer size) {
+        Pageable of = PageRequest.of(page,size);
+        return bookRepo.findAllByDepartments_NameContainsIgnoreCase(name, of);
     }
 
     public Book getByBookId(Integer id){

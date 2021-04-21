@@ -3,7 +3,7 @@ package com.library.services;
 import com.library.models.Fee;
 import com.library.models.enums;
 import com.library.repo.FeeRepo;
-import com.library.models.request.FeeDTO;
+import com.library.models.dto.FeeDTO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -25,10 +25,10 @@ public class FeeService {
     public List<Fee> readByFeeType(enums.FeeType feeType) {
         return feeRepo.findByFeeType(feeType);
     }
-
-//    public List<Fee> getByUserName(String name) {
-//        return feeRepo.findByUsername(name);
-//    }
+	
+    public List<Fee> getByUserName(String name) {
+        return feeRepo.findByUser_username(name);
+    }
 
     public void update(Fee fee, FeeDTO body) {
 

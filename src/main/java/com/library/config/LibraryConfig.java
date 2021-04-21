@@ -1,8 +1,10 @@
 package com.library.config;
 
 import com.library.models.*;
-import com.library.models.request.BookDTO;
+import com.library.models.dto.BookDTO;
+import com.library.repo.FeeRepo;
 import com.library.services.BookService;
+
 import com.library.models.Department;
 import com.library.models.Library;
 import com.library.models.User;
@@ -29,7 +31,12 @@ public class LibraryConfig {
     final private BookService bookService;
 
     @Autowired
+    FeeRepo feeRepo;
+
+
+    @Autowired
     public LibraryConfig(LibraryService libraryService, @Lazy UserService userService, DepartmentService departmentService, BookService bookService) {
+
         this.libraryService = libraryService;
         this.userService = userService;
         this.departmentService = departmentService;
@@ -41,7 +48,9 @@ public class LibraryConfig {
         seedDepartmentTable();
         seedLibraryTable();
         seedUsersTable();
+        seedFeeTable();
         seedBooksTable();
+
     }
 
     private void seedDepartmentTable() {
@@ -99,6 +108,14 @@ public class LibraryConfig {
         }
     }
 
+    private void seedFeeTable(){
+        Fee f = new Fee();
+        f.setFeeStatus(enums.FeeStatus.UNPAID);
+        f.setAmount(10.00);
+        f.setUser(userService.readByUsername("admin"));
+        f.setFeeType(enums.FeeType.LATE);
+        feeRepo.save(f);
+    }
 
     private void seedBooksTable(){
         if(bookService.getAll() != null){

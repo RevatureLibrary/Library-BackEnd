@@ -1,8 +1,8 @@
 package com.library.controller;
 
 import com.library.models.*;
-import com.library.models.request.CheckoutDTO;
 import com.library.repo.BookRepo;
+import com.library.models.dto.CheckoutDTO;
 import com.library.services.BookService;
 import com.library.services.CheckoutService;
 
