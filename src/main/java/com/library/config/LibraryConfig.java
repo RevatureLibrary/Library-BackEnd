@@ -3,6 +3,10 @@ package com.library.config;
 import com.library.models.*;
 import com.library.models.request.BookDTO;
 import com.library.services.BookService;
+import com.library.models.Department;
+import com.library.models.Library;
+import com.library.models.User;
+import com.library.models.enums;
 import com.library.services.DepartmentService;
 import com.library.services.LibraryService;
 import com.library.services.UserService;
@@ -31,6 +35,7 @@ public class LibraryConfig {
         this.departmentService = departmentService;
         this.bookService = bookService;
     }
+
     @EventListener
     public void seed(ContextRefreshedEvent event) {
         seedDepartmentTable();
@@ -51,7 +56,7 @@ public class LibraryConfig {
 
     }
 
-    public void seedLibraryTable() {
+    public void seedLibraryTable(){
         String libraryName = "William Memorial Library";
 
         if (libraryService.getLibrary() != null) {

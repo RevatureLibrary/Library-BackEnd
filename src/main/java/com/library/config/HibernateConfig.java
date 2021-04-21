@@ -41,34 +41,34 @@ public class HibernateConfig {
         return sessionFactory;
     }
 
-    @Bean
-    public DataSource dataSource() {
-        DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
-        dataSourceBuilder.driverClassName("org.postgresql.Driver");
-        dataSourceBuilder.url("jdbc:postgresql://test.chxdvrntu7bg.us-east-2.rds.amazonaws.com:5432/postgres");
-        dataSourceBuilder.username("postgres");
-        dataSourceBuilder.password("password");
-        return dataSourceBuilder.build();
-    }
+        @Bean
+        public DataSource dataSource() {
+            DataSourceBuilder dataSourceBuilder = DataSourceBuilder.create();
+            dataSourceBuilder.driverClassName("org.postgresql.Driver");
+            dataSourceBuilder.url("jdbc:postgresql://localhost:5432/");
+            dataSourceBuilder.username("postgres");
+            dataSourceBuilder.password("password");
+            return dataSourceBuilder.build();
+        }
 
 
-    @Bean
-    public PlatformTransactionManager transactionManager() {
-        HibernateTransactionManager transactionManager
-                = new HibernateTransactionManager();
-        transactionManager.setSessionFactory(entityManagerFactory().getObject());
-        return transactionManager;
-    }
+        @Bean
+        public PlatformTransactionManager transactionManager() {
+            HibernateTransactionManager transactionManager
+                    = new HibernateTransactionManager();
+            transactionManager.setSessionFactory(entityManagerFactory().getObject());
+            return transactionManager;
+        }
 
-    private final Properties hibernateProperties() {
-        Properties hibernateProperties = new Properties();
-        hibernateProperties.setProperty(
-                "hibernate.hbm2ddl.auto", "create-drop");
-        hibernateProperties.setProperty(
-                "hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
+        private final Properties hibernateProperties() {
+            Properties hibernateProperties = new Properties();
+            hibernateProperties.setProperty(
+                    "hibernate.hbm2ddl.auto", "create-drop");
+            hibernateProperties.setProperty(
+                    "hibernate.dialect", "org.hibernate.dialect.PostgreSQLDialect");
 
-        return hibernateProperties;
-    }
+            return hibernateProperties;
+        }
 
 }
 

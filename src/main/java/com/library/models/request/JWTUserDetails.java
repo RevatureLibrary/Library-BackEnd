@@ -17,8 +17,6 @@ import java.util.Collections;
 
 public class JWTUserDetails implements UserDetails {
 
-    @Autowired
-    UserService userService;
 
     private String username;
     private String password;
@@ -34,7 +32,7 @@ public class JWTUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(accountType.toAuth());
+        return (accountType.toAuth());
     }
 
     @Override
