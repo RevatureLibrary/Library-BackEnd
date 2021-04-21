@@ -12,7 +12,7 @@ import java.util.ArrayList;
 @NoArgsConstructor
 public class PaymentDTO {
     private int id;
-    private String userName;
+    private String username;
     private double amount;
     private ArrayList<Integer> feesPaid;
 }

@@ -53,7 +53,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     protected void configure(HttpSecurity http) throws Exception {
                 http.csrf().disable().cors().and().authorizeRequests()
                 .antMatchers("/library/authentication",
-                        "library/users",
+                        "/library/users",
+                        "/library/books",
+                        "/library/books/**",
                         "/v2/api-docs",
                         "/v2/api-docs",
                         "/v3/api-docs/**",

@@ -21,8 +21,6 @@ public class LoginController {
     @PostMapping(value = "/library/authentication")
     public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginAttemptDTO loginAttemptDTO) throws Exception{
         LoginResponseDTO login = null;
-        System.out.println(loginAttemptDTO);
-        System.out.println(getAuth());
         try {
             login = userService.login(loginAttemptDTO);
         } catch (BadCredentialsException e) {

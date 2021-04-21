@@ -25,23 +25,24 @@ public class PaymentService {
 
     public void makePayment(double amount, ArrayList<Integer> feeID, String userName){
         Payment paymentToBeMade = new Payment();
-        paymentToBeMade.setAmount(amount);
-        paymentToBeMade.setUser(userRepo.findByUsername(userName));
+        paymentToBeMade.setAmount(amount);//Todo:make sure this matches total of fee amounts
+        paymentToBeMade.setUser(userRepo.findByUsername(userName));//Todo:make sure this is not null
 
         List<Fee> tempFeeSet = new ArrayList<>();
         for (int n : feeID){
-            Fee temp = feeRepo.findById(n);
+            Fee temp = feeRepo.findById(n).get();//make sure its not already paid, exists, add the amounts up to check that
             temp.setFeeStatus(enums.FeeStatus.PAID);
             temp.setResolved(new Timestamp(System.currentTimeMillis()));
             feeRepo.save(temp);
             tempFeeSet.add(temp);
         }
         paymentToBeMade.setFeesPaid(tempFeeSet);
-        paymentRepo.save(paymentToBeMade);
+        System.out.println(paymentToBeMade);
+        paymentRepo.save(paymentToBeMade);//check that this does not conflict
         for (int n : feeID){
-            Fee temp = feeRepo.findById(n);
+            Fee temp = feeRepo.findById(n).get();
             temp.setPayment(paymentToBeMade);
-            feeRepo.save(temp);
+            feeRepo.save(temp);//don't need this
         }
     }
 }

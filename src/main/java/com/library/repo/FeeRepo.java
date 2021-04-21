@@ -14,5 +14,4 @@ public interface FeeRepo extends JpaRepository<Fee, Integer> {
     List<Fee> findByFeeType(enums.FeeType feeType);
     List<Fee> findByUser_username(String userName);
 
-    Fee findById(int id);
 }

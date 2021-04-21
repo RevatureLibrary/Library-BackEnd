@@ -23,7 +23,7 @@ public class PaymentController {
             return ResponseEntity.unprocessableEntity().build();
 
         else {
-            paymentService.makePayment(payment.getAmount(), payment.getFeesPaid(), payment.getUserName());
+            paymentService.makePayment(payment.getAmount(), payment.getFeesPaid(), payment.getUsername());
             return ResponseEntity.status(201).body("okay");
 
         }
