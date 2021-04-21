@@ -7,6 +7,6 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import java.util.ArrayList;
 import java.util.List;
 
-public interface PaymentDao extends JpaRepository<Payment, Integer> {
+public interface PaymentRepo extends JpaRepository<Payment, Integer> {
 
 }

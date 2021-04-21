@@ -1,7 +1,7 @@
 package com.library.config;
 
 import com.library.models.*;
-import com.library.repo.FeeDao;
+import com.library.repo.FeeRepo;
 import com.library.models.Department;
 import com.library.models.Library;
 import com.library.models.User;
@@ -26,7 +26,7 @@ public class LibraryConfig {
     final  private DepartmentService departmentService;
 
     @Autowired
-    FeeDao feeDao;
+    FeeRepo feeRepo;
 
 
     @Autowired
@@ -98,6 +98,6 @@ public class LibraryConfig {
         f.setAmount(10.00);
         f.setUser(userService.readByUsername("admin"));
         f.setFeeType(enums.FeeType.LATE);
-        feeDao.save(f);
+        feeRepo.save(f);
     }
 }

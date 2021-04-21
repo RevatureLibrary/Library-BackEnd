@@ -5,7 +5,7 @@ import com.library.models.Fee;
 import com.library.models.Payment;
 import com.library.models.enums;
 import com.library.repo.FeeRepo;
-import com.library.repo.PaymentDao;
+import com.library.repo.PaymentRepo;
 import com.library.repo.UserRepo;
 import org.hibernate.annotations.UpdateTimestamp;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,31 +17,31 @@ import java.util.*;
 @Service
 public class PaymentService {
     @Autowired
-    PaymentDao paymentDao;
+    PaymentRepo paymentRepo;
     @Autowired
     FeeRepo feeRepo;
     @Autowired
-    UserRepo userDao;
+    UserRepo userRepo;
 
     public void makePayment(double amount, ArrayList<Integer> feeID, String userName){
         Payment paymentToBeMade = new Payment();
         paymentToBeMade.setAmount(amount);
-        paymentToBeMade.setUser(userDao.findByUsername(userName));
+        paymentToBeMade.setUser(userRepo.findByUsername(userName));
 
         List<Fee> tempFeeSet = new ArrayList<>();
         for (int n : feeID){
-            Fee temp = feeDao.findById(n);
+            Fee temp = feeRepo.findById(n);
             temp.setFeeStatus(enums.FeeStatus.PAID);
             temp.setResolved(new Timestamp(System.currentTimeMillis()));
-            feeDao.save(temp);
+            feeRepo.save(temp);
             tempFeeSet.add(temp);
         }
         paymentToBeMade.setFeesPaid(tempFeeSet);
-        paymentDao.save(paymentToBeMade);
+        paymentRepo.save(paymentToBeMade);
         for (int n : feeID){
-            Fee temp = feeDao.findById(n);
+            Fee temp = feeRepo.findById(n);
             temp.setPayment(paymentToBeMade);
-            feeDao.save(temp);
+            feeRepo.save(temp);
         }
     }
 }

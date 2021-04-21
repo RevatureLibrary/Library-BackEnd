@@ -27,7 +27,7 @@ public class FeeService {
     }
 	
     public List<Fee> getByUserName(String name) {
-        return feeRepo.findByUsername(name);
+        return feeRepo.findByUser_username(name);
     }
 
     public void update(Fee fee, FeeDTO body) {
