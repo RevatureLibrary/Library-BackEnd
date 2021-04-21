@@ -43,8 +43,9 @@ public class BookService {
         return bookRepo.findAllByDepartments_NameContains(name, PageRequest.of(Integer.parseInt(page),20));
     }
 
-
-
+    public Book getByBookId(Integer id){
+        return bookRepo.getById(id);
+    }
 
 }
 

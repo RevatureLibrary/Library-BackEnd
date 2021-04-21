@@ -1,5 +1,6 @@
 package com.library.models.request;
 
+import com.library.models.enums;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -15,4 +16,8 @@ public class FeeDTO {
     private Timestamp resolved;
 
     private double amount;
+
+    private enums.FeeStatus feeStatus;
+
+    private enums.FeeType feeType;
 }

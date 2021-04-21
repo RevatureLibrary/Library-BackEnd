@@ -3,10 +3,8 @@ package com.library.services;
 
 import com.library.models.Fee;
 import com.library.models.Payment;
-import com.library.models.User;
 import com.library.models.enums;
-import com.library.models.request.PaymentDTO;
-import com.library.repo.FeeDao;
+import com.library.repo.FeeRepo;
 import com.library.repo.PaymentDao;
 import com.library.repo.UserRepo;
 import org.hibernate.annotations.UpdateTimestamp;
@@ -21,7 +19,7 @@ public class PaymentService {
     @Autowired
     PaymentDao paymentDao;
     @Autowired
-    FeeDao feeDao;
+    FeeRepo feeRepo;
     @Autowired
     UserRepo userDao;
 

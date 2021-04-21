@@ -2,6 +2,10 @@ package com.library.config;
 
 import com.library.models.*;
 import com.library.repo.FeeDao;
+import com.library.models.Department;
+import com.library.models.Library;
+import com.library.models.User;
+import com.library.models.enums;
 import com.library.services.DepartmentService;
 import com.library.services.LibraryService;
 import com.library.services.UserService;
@@ -20,8 +24,10 @@ public class LibraryConfig {
     final private LibraryService libraryService;
     final  private UserService userService;
     final  private DepartmentService departmentService;
+
     @Autowired
     FeeDao feeDao;
+
 
     @Autowired
     public LibraryConfig(LibraryService libraryService, @Lazy UserService userService, DepartmentService departmentService) {
@@ -84,6 +90,7 @@ public class LibraryConfig {
 //                logger.info("Users Seeding Not Required");
         }
     }
+
 
     private void seedFeeTable(){
         Fee f = new Fee();
