@@ -1,6 +1,7 @@
 package com.library.config;
 
 import com.library.models.*;
+import com.library.models.dto.BookDTO;
 import com.library.repo.FeeRepo;
 import com.library.services.BookService;
 
@@ -91,6 +92,7 @@ public class LibraryConfig {
             user.setAccountType(enums.AccountType.ADMIN);
 //                user.setConfirmEmail(true);
             userService.save(user);
+            user.setId(0);
             user.setFirstName("Patrick");
             user.setLastName("Gonzalez");
             user.setUsername("pgonzalez");
