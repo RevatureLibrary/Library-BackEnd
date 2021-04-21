@@ -1,6 +1,6 @@
 package com.library.services;
 
-import com.library.models.request.CheckoutDTO;
+import com.library.models.dto.CheckoutDTO;
 import com.library.repo.CheckoutRepo;
 import com.library.models.Book;
 import com.library.models.Checkout;

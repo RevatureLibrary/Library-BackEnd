@@ -1,5 +1,5 @@
 package com.library.models;
-import com.library.models.request.CheckoutDTO;
+import com.library.models.dto.CheckoutDTO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 

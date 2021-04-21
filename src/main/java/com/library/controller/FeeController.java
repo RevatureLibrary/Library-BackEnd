@@ -1,7 +1,7 @@
 package com.library.controller;
 
 import com.library.models.Fee;
-import com.library.models.request.FeeDTO;
+import com.library.models.dto.FeeDTO;
 import com.library.services.FeeService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
