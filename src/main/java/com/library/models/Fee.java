@@ -3,6 +3,8 @@ package com.library.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -18,7 +20,8 @@ public class Fee {
     @GeneratedValue
     private int id;
 
-    private Timestamp assessed = new Timestamp(System.currentTimeMillis());
+    @CreationTimestamp
+    private Timestamp assessed;
     private Timestamp resolved;
     private double amount;
 

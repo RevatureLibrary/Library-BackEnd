@@ -9,6 +9,7 @@ import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
+import java.util.List;
 import java.util.Set;
 
 import java.util.Set;
@@ -30,7 +31,7 @@ public class Payment {
     Double amount;
   
     @OneToMany(mappedBy = "payment",targetEntity = Fee.class)
-    private Set<Fee> feesPaid;
+    private List<Fee> feesPaid;
   
     @CreationTimestamp
     private Timestamp time;

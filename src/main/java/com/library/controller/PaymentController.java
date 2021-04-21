@@ -25,11 +25,12 @@ public class PaymentController {
 
     @PostMapping()
     public ResponseEntity<String> register(@RequestBody PaymentDTO payment) throws Exception{
+        System.out.println(payment);
         if(payment.getAmount()==0 ||payment.getFeesPaid()==null)
             return ResponseEntity.unprocessableEntity().build();
 
         else {
-            paymentService.makePayment(payment.getAmount(), payment.getFeesPaid(), payment.getUserId());
+            paymentService.makePayment(payment.getAmount(), payment.getFeesPaid(), payment.getUserName());
             return ResponseEntity.status(201).body("okay");
 
         }
