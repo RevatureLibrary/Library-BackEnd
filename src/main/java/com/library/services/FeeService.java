@@ -25,10 +25,10 @@ public class FeeService {
     public List<Fee> readByFeeType(enums.FeeType feeType) {
         return feeRepo.findByFeeType(feeType);
     }
-
-//    public List<Fee> getByUserName(String name) {
-//        return feeRepo.findByUsername(name);
-//    }
+	
+    public List<Fee> getByUserName(String name) {
+        return feeRepo.findByUsername(name);
+    }
 
     public void update(Fee fee, FeeDTO body) {
 
