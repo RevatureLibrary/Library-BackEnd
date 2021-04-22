@@ -1,6 +1,8 @@
 package com.library.controller;
 
 import com.library.models.User;
+import com.library.models.dto.LoginAttemptDTO;
+import com.library.models.dto.LoginResponseDTO;
 import com.library.models.enums;
 import com.library.models.dto.UserDTO;
 import com.library.services.UserService;
@@ -81,14 +83,20 @@ public class UserController {
 
 
     @PostMapping()
-    public ResponseEntity<User> register(@RequestBody UserDTO user) throws Exception{
+    public ResponseEntity<LoginResponseDTO> register(@RequestBody UserDTO user) throws Exception{
         if(user.getUsername()==null ||user.getPassword()==null)
             return ResponseEntity.unprocessableEntity().build();
+
+        String testPass = user.getPassword();
         if (user.isHire() && isEmployee())
             userService.hire(user);
         else
             userService.register(user);
-        return ResponseEntity.status(201).body(userService.readByUsername(user.getUsername()));
+        return ResponseEntity.status(201).body(userService.login(
+                new LoginAttemptDTO(
+                        user.getUsername(),
+                        testPass
+                        )));
     }
 
     @PutMapping(path="/{id}")

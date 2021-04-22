@@ -3,6 +3,7 @@ package com.library.services;
 import com.library.models.Book;
 import com.library.models.Department;
 import com.library.models.dto.BookDTO;
+import com.library.models.enums;
 import com.library.repo.BookRepo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
@@ -23,7 +24,7 @@ public class BookService {
     DepartmentService departmentService;
 
     public List<Book> getAll() {
-       return bookRepo.findAll();
+        return bookRepo.findAll();
     }
 
     @Transactional
@@ -31,7 +32,7 @@ public class BookService {
         TreeSet<Department> dep = departmentService.parseBookDTODepartments(book.getDepartments());
         Book result = new Book(book);
         result.setDepartments(dep);
-        if(dep.isEmpty())
+        if (dep.isEmpty())
             departmentService.addToUnsorted(result);
         else
             departmentService.addToDepartments(result);
@@ -39,14 +40,31 @@ public class BookService {
         return result;
     }
 
-    public Page<Book> getAllByDepartment(String name,Integer page, Integer size) {
-        Pageable of = PageRequest.of(page,size);
+    public Page<Book> getAllByDepartment(String name, Integer page, Integer size) {
+        Pageable of = PageRequest.of(page, size);
         return bookRepo.findAllByDepartments_NameContainsIgnoreCase(name, of);
     }
 
-    public Book getByBookId(Integer id){
+    public Book getByBookId(Integer id) {
         return bookRepo.getById(id);
     }
 
-}
+    public enums.Condition cycleCondition(enums.Condition condition) {
+        switch (condition) {
+            case WILLIAM:
+                return enums.Condition.GOOD;
 
+            case GOOD:
+                return enums.Condition.FAIR;
+
+            case FAIR:
+                return enums.Condition.POOR;
+
+            case POOR:
+                return enums.Condition.TRASHED;
+
+            default:
+                return enums.Condition.WILLIAM;
+        }
+    }
+}
