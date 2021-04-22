@@ -1,6 +1,7 @@
 package com.library.services;
 
-import com.library.models.dto.CheckoutDTO;
+import com.library.models.enums;
+import com.library.repo.BookRepo;
 import com.library.repo.CheckoutRepo;
 import com.library.models.Book;
 import com.library.models.Checkout;
@@ -13,41 +14,47 @@ import java.util.List;
 @Service
 public class CheckoutService {
     @Autowired
-    CheckoutRepo checkoutDao;
+    CheckoutRepo checkoutRepo;
+    @Autowired
+    BookRepo bookRepo;
 
     public List<Checkout> getAll(){
-        return checkoutDao.findAll();
+        return checkoutRepo.findAll();
     }
 
     public Checkout getById(Integer id){
-        return checkoutDao.findById(id).get();
+        return checkoutRepo.findById(id).get();
     }
 
     public Checkout getByBook(Book book){
-        return checkoutDao.getByBook(book);
+        return checkoutRepo.getByBook(book);
     }
 
     public List<Checkout> getByUser(User user){
-        return checkoutDao.getByUser(user);
+        return checkoutRepo.getByUser(user);
     }
 
-    public void checkoutBook(Checkout checkout){
-        checkoutDao.save(checkout);
+    public Checkout checkoutBook(Checkout checkout){
+        Book book = bookRepo.getById(checkout.getBook().getId());
+        book.setBookStatus(enums.BookStatus.CHECKED_OUT);
+        bookRepo.save(book);
+        checkoutRepo.save(checkout);
+        return checkout;
     }
 
-    public void save(Checkout checkout){ checkoutDao.save(checkout); }
+    public void save(Checkout checkout){ checkoutRepo.save(checkout); }
 
     public void delete(Checkout checkout){
-        checkoutDao.delete(checkout);
+        checkoutRepo.delete(checkout);
     }
 
     public void deleteById(Integer id){
-        checkoutDao.deleteById(id);
+        checkoutRepo.deleteById(id);
     }
 
     public void returnCheckout(Checkout checkout){
         //
-        checkoutDao.save(checkout);
+        checkoutRepo.save(checkout);
     }
 
 }
