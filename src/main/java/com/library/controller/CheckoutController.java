@@ -58,23 +58,19 @@ public class CheckoutController {
     // works
     @PostMapping()
     public ResponseEntity<Checkout> insertCheckout(@RequestBody CheckoutDTO checkoutDTO){
-
-        Checkout checkout = new Checkout(checkoutDTO);
         Book book = bookService.getByBookId(checkoutDTO.getBookId());
         User user = userService.readByUsername(checkoutDTO.getUsername());
-        if(book == null || book.getBookStatus() != enums.BookStatus.AVAILABLE || user == null){
-            return ResponseEntity.unprocessableEntity().build();
+        if(checkoutDTO == null || book == null || user == null || book.getBookStatus() != enums.BookStatus.AVAILABLE){
+            return ResponseEntity.notFound().build();
         }
-
         if(isPatron() || isEmployee() || isAdmin()){
-            checkout.setUser(user);
+            Checkout checkout = new Checkout(checkoutDTO);
             checkout.setBook(book);
-            book.setBookStatus(enums.BookStatus.CHECKED_OUT);
-//            bookService.update(book);
-            // Might need to create Fee for checkout not sure
-            checkoutService.checkoutBook(checkout);
+            checkout.setUser(user);
+            checkout = checkoutService.checkoutBook(checkout);
+            return new ResponseEntity<>(checkout, HttpStatus.OK);
         }
-        return new ResponseEntity<>(checkout, HttpStatus.OK);
+        return ResponseEntity.badRequest().build();
     }
 
     // This is for a User returning a book
