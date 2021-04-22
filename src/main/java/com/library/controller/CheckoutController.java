@@ -24,11 +24,7 @@ public class CheckoutController {
     @Autowired
     CheckoutService checkoutService;
     @Autowired
-    FeeService feeService;
-    @Autowired
     BookService bookService;
-    @Autowired
-    BookRepo bookRepo;
     @Autowired
     UserService userService;
 
@@ -74,44 +70,34 @@ public class CheckoutController {
     // works
     @PostMapping()
     public ResponseEntity<Checkout> insertCheckout(@RequestBody CheckoutDTO checkoutDTO){
-
-        Checkout checkout = new Checkout(checkoutDTO);
         Book book = bookService.getByBookId(checkoutDTO.getBookId());
         User user = userService.readByUsername(checkoutDTO.getUsername());
-        if(book == null || book.getBookStatus() != enums.BookStatus.AVAILABLE || user == null){
-            return ResponseEntity.unprocessableEntity().build();
+        if(checkoutDTO == null || book == null || user == null || book.getBookStatus() != enums.BookStatus.AVAILABLE){
+            return ResponseEntity.notFound().build();
         }
-
         if(isPatron() || isEmployee() || isAdmin()){
-            checkout.setUser(user);
+            Checkout checkout = new Checkout(checkoutDTO);
             checkout.setBook(book);
-            book.setBookStatus(enums.BookStatus.CHECKED_OUT);
-            bookRepo.save(book);
-            checkoutService.checkoutBook(checkout);
+            checkout.setUser(user);
+            checkout = checkoutService.checkoutBook(checkout);
+            return new ResponseEntity<>(checkout, HttpStatus.OK);
         }
-        return new ResponseEntity<>(checkout, HttpStatus.OK);
+        return ResponseEntity.badRequest().build();
     }
 
     // This is for a User returning a book
     // TODO: Consider changing path
     @PutMapping(path="/{id}")
     public ResponseEntity<Checkout> updateCheckout(@PathVariable String id){
-
         Checkout checkout = checkoutService.getById(Integer.parseInt(id));
-        Book book = checkout.getBook();
         if(checkout == null){
             return ResponseEntity.notFound().build();
         }
-        checkout.setCheckoutStatus(enums.CheckoutStatus.RETURNED);
-        Timestamp dateReturned = Timestamp.valueOf(LocalDateTime.now());
-        if(dateReturned.after(checkout.getReturnDueDate())){
-            Fee fee = new Fee(0, dateReturned, null, 2.50d, enums.FeeType.LATE, enums.FeeStatus.UNPAID, checkout.getUser(), null);
-            checkout.setFee(fee);
+        if(isPatron() || isEmployee() || isAdmin()){
+            checkout = checkoutService.returnCheckout(checkout);
+            return new ResponseEntity<>(checkout, HttpStatus.OK);
         }
-        checkout.getBook().setBookStatus(enums.BookStatus.OFF_SHELF);
-        bookRepo.save(book);
-        checkoutService.returnCheckout(checkout);
-        return new ResponseEntity<>(checkout, HttpStatus.OK);
+        return ResponseEntity.badRequest().build();
     }
 
     // TODO: Consider changing the path
