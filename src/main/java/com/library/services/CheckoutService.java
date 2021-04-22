@@ -1,6 +1,8 @@
 package com.library.services;
 
 import com.library.models.*;
+import com.library.repo.BookRepo;
+import com.library.models.*;
 import com.library.models.dto.CheckoutDTO;
 import com.library.repo.BookRepo;
 import com.library.repo.CheckoutRepo;
@@ -17,11 +19,8 @@ public class CheckoutService {
     @Autowired
     CheckoutRepo checkoutRepo;
     @Autowired
-    BookService bookService;
-    @Autowired
-    UserService userService;
-    @Autowired
     BookRepo bookRepo;
+
 
 
     public List<Checkout> getAll(){
