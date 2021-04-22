@@ -77,20 +77,15 @@ public class CheckoutController {
     // TODO: Consider changing path
     @PutMapping(path="/{id}")
     public ResponseEntity<Checkout> updateCheckout(@PathVariable String id){
-
         Checkout checkout = checkoutService.getById(Integer.parseInt(id));
         if(checkout == null){
             return ResponseEntity.notFound().build();
         }
-        checkout.setCheckoutStatus(enums.CheckoutStatus.RETURNED);
-        Timestamp dateReturned = Timestamp.valueOf(LocalDateTime.now());
-        if(dateReturned.after(checkout.getReturnDueDate())){
-            Fee fee = new Fee(0, dateReturned, null, 2.50d, enums.FeeType.LATE, enums.FeeStatus.UNPAID, checkout.getUser(), null);
-            checkout.setFee(fee);
+        if(isPatron() || isEmployee() || isAdmin()){
+            checkout = checkoutService.returnCheckout(checkout);
+            return new ResponseEntity<>(checkout, HttpStatus.OK);
         }
-        checkout.getBook().setBookStatus(enums.BookStatus.OFF_SHELF);
-        checkoutService.returnCheckout(checkout);
-        return new ResponseEntity<>(checkout, HttpStatus.OK);
+        return ResponseEntity.badRequest().build();
     }
 
     // TODO: Consider changing the path
