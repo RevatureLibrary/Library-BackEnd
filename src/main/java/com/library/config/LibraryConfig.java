@@ -3,15 +3,12 @@ package com.library.config;
 import com.library.models.*;
 import com.library.models.dto.BookDTO;
 import com.library.repo.FeeRepo;
-import com.library.services.BookService;
+import com.library.services.*;
 
 import com.library.models.Department;
 import com.library.models.Library;
 import com.library.models.User;
 import com.library.models.enums;
-import com.library.services.DepartmentService;
-import com.library.services.LibraryService;
-import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Lazy;
@@ -20,6 +17,8 @@ import org.springframework.context.event.EventListener;
 
 import javax.annotation.PostConstruct;
 import java.sql.Time;
+import java.sql.Timestamp;
+import java.time.LocalDateTime;
 import java.util.HashSet;
 
 @Configuration
@@ -29,18 +28,20 @@ public class LibraryConfig {
     final  private UserService userService;
     final  private DepartmentService departmentService;
     final private BookService bookService;
+    final private CheckoutService checkoutService;
 
     @Autowired
     FeeRepo feeRepo;
 
 
     @Autowired
-    public LibraryConfig(LibraryService libraryService, @Lazy UserService userService, DepartmentService departmentService, BookService bookService) {
+    public LibraryConfig(LibraryService libraryService, @Lazy UserService userService, DepartmentService departmentService, BookService bookService,@Lazy CheckoutService checkoutService) {
 
         this.libraryService = libraryService;
         this.userService = userService;
         this.departmentService = departmentService;
         this.bookService = bookService;
+        this.checkoutService = checkoutService;
     }
 
     @EventListener
@@ -50,7 +51,7 @@ public class LibraryConfig {
         seedUsersTable();
         seedFeeTable();
         seedBooksTable();
-
+        seedCheckoutsTable();
     }
 
     private void seedDepartmentTable() {
@@ -129,4 +130,17 @@ public class LibraryConfig {
         }
     }
 
+    private void seedCheckoutsTable(){
+        if(checkoutService.getAll() != null){
+            Checkout checkout = new Checkout();
+            LocalDateTime now = LocalDateTime.now();
+            checkout.setId(0);
+            checkout.setCheckoutStatus(enums.CheckoutStatus.DUE);
+            checkout.setCheckoutDate(Timestamp.valueOf(now.minusDays(21)));
+            checkout.setReturnDueDate(Timestamp.valueOf(now.minusDays(14)));
+            checkout.setUser(userService.readByUsername("pgonzalez"));
+            checkout.setBook(bookService.getByBookId(12));
+            checkoutService.checkoutBook(checkout);
+        }
+    }
 }
