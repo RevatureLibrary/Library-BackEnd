@@ -141,30 +141,12 @@ public class LibraryConfig {
         patsLate.setCheckoutStatus(enums.CheckoutStatus.DUE);
         patsLate.setReturnDueDate(
                 Timestamp.valueOf(patsLate.getCheckoutDate().toLocalDateTime().plusDays(7)));
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
         System.out.println(checkoutService.checkoutBook(patsLate));
 
 
     }
 
     private void bloodHeartSpaceQuest() {
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
-        System.out.println("==========================================");
             BookDTO bhsq= new BookDTO(0, 8675309,
                     "Blood Heart Space Quest",
                     "Sudo Nym", "Low Standards Publishing House",
