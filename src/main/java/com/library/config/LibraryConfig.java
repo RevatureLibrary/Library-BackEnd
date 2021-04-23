@@ -53,7 +53,6 @@ public class LibraryConfig {
         seedUsersTable();
         seedFeeTable();
         seedBooksTable();
-
     }
 
     private void seedDepartmentTable() {
@@ -140,13 +139,30 @@ public class LibraryConfig {
         patsLate.setCheckoutStatus(enums.CheckoutStatus.DUE);
         patsLate.setReturnDueDate(
                 Timestamp.valueOf(patsLate.getCheckoutDate().toLocalDateTime().plusDays(7)));
-        checkoutService.checkoutBook(patsLate);
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println(checkoutService.checkoutBook(patsLate));
 
 
     }
 
     private void bloodHeartSpaceQuest() {
-
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
+        System.out.println("==========================================");
             BookDTO bhsq= new BookDTO(0, 8675309,
                     "Blood Heart Space Quest",
                     "Sudo Nym", "Low Standards Publishing House",
@@ -158,6 +174,8 @@ public class LibraryConfig {
                 bhsq.setId(0);
                 bookService.addBook(bhsq);
             }
+
+            seedCheckoutTable();
 
     }
 
@@ -173,9 +191,9 @@ public class LibraryConfig {
         for(int i = 0; i<26;i++){
             //w.setCondition(bookService.cycleCondition(w.getCondition()));
             w.setId(0);
-            volume++;
             w.setTitle("William's World Wide Wesource Wolume: " + volume);
             bookService.addBook(w);
+            volume++;
         }
     }
 
