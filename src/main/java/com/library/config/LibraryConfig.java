@@ -39,6 +39,7 @@ public class LibraryConfig {
     @Autowired
     public LibraryConfig(LibraryService libraryService, @Lazy UserService userService, DepartmentService departmentService, BookService bookService, CheckoutService checkoutService) {
 
+
         this.libraryService = libraryService;
         this.userService = userService;
         this.departmentService = departmentService;
@@ -53,6 +54,7 @@ public class LibraryConfig {
         seedUsersTable();
         seedFeeTable();
         seedBooksTable();
+        seedCheckoutsTable();
     }
 
     private void seedDepartmentTable() {
@@ -199,4 +201,17 @@ public class LibraryConfig {
 
 
 
+    private void seedCheckoutsTable(){
+        if(checkoutService.getAll() != null){
+            Checkout checkout = new Checkout();
+            LocalDateTime now = LocalDateTime.now();
+            checkout.setId(0);
+            checkout.setCheckoutStatus(enums.CheckoutStatus.DUE);
+            checkout.setCheckoutDate(Timestamp.valueOf(now.minusDays(21)));
+            checkout.setReturnDueDate(Timestamp.valueOf(now.minusDays(14)));
+            checkout.setUser(userService.readByUsername("pgonzalez"));
+            checkout.setBook(bookService.getByBookId(12));
+            checkoutService.checkoutBook(checkout);
+        }
+    }
 }

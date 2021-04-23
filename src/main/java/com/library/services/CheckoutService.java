@@ -42,6 +42,7 @@ public class CheckoutService {
     public Checkout checkoutBook(Checkout checkout){
         Book book = bookRepo.getById(checkout.getBook().getId());
         book.setBookStatus(enums.BookStatus.CHECKED_OUT);
+        checkout.setBook(book);
         bookRepo.save(book);
         checkoutRepo.save(checkout);
         return checkout;
