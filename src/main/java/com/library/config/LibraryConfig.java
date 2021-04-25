@@ -121,7 +121,8 @@ public class LibraryConfig {
     }
 
     private void seedBooksTable(){
-        if(bookService.getAll() != null){
+       // System.out.println(bookService.getAll());
+        if(bookService.getAll().isEmpty()){
             BookDTO bookDTO = new BookDTO(0, 42,
                     "The Hitchhiker's Guide to the Galaxy",
                     "Douglas Adams", "Pan Books",
@@ -184,6 +185,7 @@ public class LibraryConfig {
 
 
     private void seedCheckoutsTable(){
+
         if(checkoutService.getAll() != null){
             Checkout checkout = new Checkout();
             LocalDateTime now = LocalDateTime.now();
