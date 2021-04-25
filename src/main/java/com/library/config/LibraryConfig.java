@@ -141,7 +141,7 @@ public class LibraryConfig {
         patsLate.setCheckoutStatus(enums.CheckoutStatus.DUE);
         patsLate.setReturnDueDate(
                 Timestamp.valueOf(patsLate.getCheckoutDate().toLocalDateTime().plusDays(7)));
-        System.out.println(checkoutService.checkoutBook(patsLate));
+        checkoutService.checkoutBook(patsLate);
 
 
     }

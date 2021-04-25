@@ -13,7 +13,7 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "fees")
+@Table(name = "fees" )
 public class Fee {
 
     @Id
