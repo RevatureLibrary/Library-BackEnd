@@ -3,6 +3,8 @@ package com.library.models;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import org.hibernate.annotations.CreationTimestamp;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,16 +13,17 @@ import java.sql.Timestamp;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-@Table(name = "fees")
+@Table(name = "fees" )
 public class Fee {
 
     @Id
     @GeneratedValue
     private int id;
 
-    private Timestamp assessed = new Timestamp(System.currentTimeMillis());
+    @CreationTimestamp
+    private Timestamp assessed;
     private Timestamp resolved;
-    private double amount;
+    private double amount = 0.0;
 
     @Enumerated
     private enums.FeeType feeType;

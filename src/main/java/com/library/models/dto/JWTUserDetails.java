@@ -1,24 +1,14 @@
-package com.library.models.request;
+package com.library.models.dto;
 
 import com.library.models.enums;
-import com.library.services.UserService;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.crypto.argon2.Argon2PasswordEncoder;
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
-import org.springframework.stereotype.Component;
 
-import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 
 
 public class JWTUserDetails implements UserDetails {
 
-    @Autowired
-    UserService userService;
 
     private String username;
     private String password;
@@ -34,7 +24,7 @@ public class JWTUserDetails implements UserDetails {
 
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
-        return Collections.singletonList(accountType.toAuth());
+        return (accountType.toAuth());
     }
 
     @Override

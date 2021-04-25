@@ -1,11 +1,10 @@
-package com.library.models.request;
+package com.library.models.dto;
 
 import com.library.models.enums;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import javax.persistence.Enumerated;
 @AllArgsConstructor
 @NoArgsConstructor
 @Data
@@ -17,9 +16,7 @@ public class BookDTO {
     String author;
     String publisher;
     enums.Condition condition;
-
     enums.BookStatus bookStatus;
-
     String[] departments;
 
 }

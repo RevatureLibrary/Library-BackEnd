@@ -1,7 +1,7 @@
 package com.library.models;
 
 import com.fasterxml.jackson.annotation.*;
-import com.library.models.request.BookDTO;
+import com.library.models.dto.BookDTO;
 import lombok.*;
 
 import javax.persistence.*;
@@ -29,10 +29,9 @@ public class Book {
         @Enumerated
         enums.BookStatus bookStatus;
 
-        @ManyToMany(mappedBy = "books", cascade = CascadeType.REFRESH) //mappedBy tells Hibernate this is the child side of the bidirectional mapping
+        @ManyToMany(mappedBy = "books", cascade = CascadeType.REFRESH,fetch = FetchType.EAGER) //mappedBy tells Hibernate this is the child side of the bidirectional mapping
         @JsonIdentityReference(alwaysAsId = true)
         @JsonIdentityInfo(generator = ObjectIdGenerators.PropertyGenerator.class, property = "name")
-        @JsonIgnore
         Set<Department> departments = new HashSet<>();
 
 
@@ -44,7 +43,6 @@ public class Book {
                 this.condition = bookDTO.getCondition();
                 this.bookStatus = bookDTO.getBookStatus();
                 this.departments = new HashSet<>();
-
         }
 
 }

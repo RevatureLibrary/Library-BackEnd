@@ -1,12 +1,11 @@
 package com.library.services;
 
-import com.library.controler.DepartmentController;
+import com.library.controller.DepartmentController;
 import com.library.models.Book;
 import com.library.models.Department;
 import com.library.repo.BookRepo;
 import com.library.repo.DepartmentRepo;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.context.annotation.Bean;
 import org.springframework.stereotype.Service;
 import sun.reflect.generics.tree.Tree;
 

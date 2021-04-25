@@ -1,8 +1,10 @@
 package com.library.controller;
 
 import com.library.models.User;
+import com.library.models.dto.LoginAttemptDTO;
+import com.library.models.dto.LoginResponseDTO;
 import com.library.models.enums;
-import com.library.models.request.UserDTO;
+import com.library.models.dto.UserDTO;
 import com.library.services.UserService;
 import com.library.util.AuthorityUtil;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -10,9 +12,12 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 import static com.library.util.AuthorityUtil.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = {"library/users","**/users"},consumes = "application/json", produces = "application/json")
 public class UserController {
 
@@ -27,6 +32,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping(path="/{id}")
     public @ResponseBody ResponseEntity<User>
     getById(@PathVariable String id) {
@@ -39,6 +45,18 @@ public class UserController {
         return new ResponseEntity<>(user, HttpStatus.OK);
 
         return ResponseEntity.badRequest().build();
+    }
+    @GetMapping(path="/search={username}")
+    public @ResponseBody ResponseEntity<?>
+    searchByUsername(@PathVariable String username) {
+        List<User> user = userService.searchByUsername(username);
+        if (user == null)
+            return ResponseEntity.badRequest().build();
+
+        if (isEmployee())
+            return new ResponseEntity<>(user, HttpStatus.OK);
+
+        return ResponseEntity.status(HttpStatus.FORBIDDEN).build();
     }
     @GetMapping(path="/username={username}")
     public @ResponseBody ResponseEntity<User>
@@ -67,16 +85,23 @@ public class UserController {
 
 
     @PostMapping()
-    public ResponseEntity<User> register(@RequestBody UserDTO user) throws Exception{
+    public ResponseEntity<LoginResponseDTO> register(@RequestBody UserDTO user) throws Exception{
         if(user.getUsername()==null ||user.getPassword()==null)
             return ResponseEntity.unprocessableEntity().build();
+
+        String testPass = user.getPassword();
         if (user.isHire() && isEmployee())
             userService.hire(user);
         else
             userService.register(user);
-        return ResponseEntity.status(201).body(userService.readByUsername(user.getUsername()));
+        return ResponseEntity.status(201).body(userService.login(
+                new LoginAttemptDTO(
+                        user.getUsername(),
+                        testPass
+                        )));
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping(path="/{id}")
     public @ResponseBody ResponseEntity<User>
     updateById(@PathVariable int id, @RequestBody UserDTO body) {
@@ -92,6 +117,7 @@ public class UserController {
 
         return ResponseEntity.badRequest().build();
     }
+    @CrossOrigin(origins = "*")
     @DeleteMapping(path="/{id}")
     public @ResponseBody ResponseEntity<User>
     deleteById(@PathVariable int id) {

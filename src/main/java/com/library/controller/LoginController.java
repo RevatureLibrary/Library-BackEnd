@@ -1,46 +1,34 @@
 package com.library.controller;
 
-import com.library.models.request.LoginAttempt;
-import com.library.models.response.LoginResponse;
-import com.library.services.JwtUserDetailsService;
-import com.library.util.JWTUtil;
+import com.library.models.dto.LoginAttemptDTO;
+import com.library.models.dto.LoginResponseDTO;
+import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.BadCredentialsException;
-import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.*;
 
+import static com.library.util.AuthorityUtil.getAuth;
 
-@RestController @CrossOrigin(origins = "*")
+
+@RestController @CrossOrigin(origins = "http://localhost:4200")
 public class LoginController {
     @Autowired
-    JwtUserDetailsService userDetailsService;
-    @Autowired
-    private AuthenticationManager authenticationManager;
-    @Autowired
-    private JWTUtil jwTokenUtil;
+    UserService userService;
+
 
     @PostMapping(value = "/library/authentication")
-    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginAttempt loginAttempt) throws Exception{
+    public ResponseEntity<?> createAuthenticationToken(@RequestBody LoginAttemptDTO loginAttemptDTO) throws Exception{
+        LoginResponseDTO login = null;
         try {
-            authenticationManager.authenticate(
-                    new UsernamePasswordAuthenticationToken(loginAttempt.getUsername(), loginAttempt.getPassword()));
+            login = userService.login(loginAttemptDTO);
         } catch (BadCredentialsException e) {
-            throw new Exception("Incorrect username or password");
+            return ResponseEntity.status(HttpStatus.FORBIDDEN).body(e.getMessage());
         }
-        final UserDetails userDetails = userDetailsService
-                .loadUserByUsername(loginAttempt.getUsername());
-        final  String jwt = jwTokenUtil.generateToken(userDetails);
-
-        return ResponseEntity.ok(new LoginResponse(jwt));
-        }
-
-
-        
-
+        return ResponseEntity.status(HttpStatus.ACCEPTED).body(login);
     }
+}
 
 
 
