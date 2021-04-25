@@ -17,6 +17,7 @@ import java.util.List;
 import static com.library.util.AuthorityUtil.*;
 
 @RestController
+@CrossOrigin(origins = "*")
 @RequestMapping(value = {"library/users","**/users"},consumes = "application/json", produces = "application/json")
 public class UserController {
 
@@ -31,6 +32,7 @@ public class UserController {
             return ResponseEntity.badRequest().build();
     }
 
+    @CrossOrigin(origins = "*")
     @GetMapping(path="/{id}")
     public @ResponseBody ResponseEntity<User>
     getById(@PathVariable String id) {
@@ -99,6 +101,7 @@ public class UserController {
                         )));
     }
 
+    @CrossOrigin(origins = "*")
     @PutMapping(path="/{id}")
     public @ResponseBody ResponseEntity<User>
     updateById(@PathVariable int id, @RequestBody UserDTO body) {
@@ -114,6 +117,7 @@ public class UserController {
 
         return ResponseEntity.badRequest().build();
     }
+    @CrossOrigin(origins = "*")
     @DeleteMapping(path="/{id}")
     public @ResponseBody ResponseEntity<User>
     deleteById(@PathVariable int id) {

@@ -7,6 +7,8 @@ import com.library.services.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.http.HttpMessage;
+import org.springframework.http.HttpMethod;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -53,7 +55,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-                http.csrf().disable().cors().and().authorizeRequests()
+                http.csrf().disable().authorizeRequests().antMatchers(HttpMethod.OPTIONS).permitAll()
                 .antMatchers("/library/authentication",
                         "/library/users",
                         "/library/books",
@@ -84,7 +86,9 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     @Bean
     CorsConfigurationSource corsConfigurationSource() {
         UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("*", new CorsConfiguration().applyPermitDefaultValues().setAllowedOriginPatterns(Collections.singletonList("http://samdanielengineering.com/**")));
+
+        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+
         return source;
     }
 }
