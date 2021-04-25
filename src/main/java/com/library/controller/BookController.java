@@ -28,7 +28,7 @@ public class BookController {
 
     @GetMapping
     public ResponseEntity<?> getAllBooks(){
-        if(isEmployee())
+        if(isPatron() || isEmployee() || isAdmin())
             return ResponseEntity.ok(bookService.getAll());
         else
             return ResponseEntity.status(403).build();

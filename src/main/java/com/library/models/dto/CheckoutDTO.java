@@ -15,8 +15,8 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 @NoArgsConstructor
 public class CheckoutDTO {
-    private Timestamp checkoutDate;
-    private Timestamp returnDueDate;
+//    private Timestamp checkoutDate;
+//    private Timestamp returnDueDate;
     private String username;
     private Integer bookId;
 }

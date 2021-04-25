@@ -13,5 +13,7 @@ import java.util.List;
         List<User> findByAccountType(enums.AccountType accountType);
 
         List<User> findByUsernameContainsIgnoreCase(String username);
+
+        Integer removeById(int Id);
     }
 

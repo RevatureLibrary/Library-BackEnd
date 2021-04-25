@@ -20,7 +20,7 @@ import java.sql.Timestamp;
 import java.time.LocalDateTime;
 
 @RestController
-@RequestMapping(value = "/library/checkouts", consumes = "application/json", produces = "application/json")
+@RequestMapping(value = {"**/checkouts","/library/checkouts"}, consumes = "application/json", produces = "application/json")
 public class CheckoutController {
     @Autowired
     CheckoutService checkoutService;
@@ -81,6 +81,7 @@ public class CheckoutController {
             checkout.setBook(book);
             checkout.setUser(user);
             checkout = checkoutService.checkoutBook(checkout);
+            System.out.println(checkout);
             return new ResponseEntity<>(checkout, HttpStatus.OK);
         }
         return ResponseEntity.badRequest().build();

@@ -44,5 +44,6 @@ public class Checkout {
         checkoutDate = Timestamp.valueOf(now);
         returnDueDate = Timestamp.valueOf(now.plusDays(14));
         checkoutStatus = enums.CheckoutStatus.DUE;
+
     }
 }

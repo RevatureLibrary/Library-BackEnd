@@ -16,8 +16,8 @@ import java.util.List;
 
 @Service
 public class UserService {
-
-    private final UserRepo userRepo;
+    @Autowired
+    UserRepo userRepo;
     private final PasswordEncoder passwordEncoder;
 
     @Autowired
@@ -95,7 +95,8 @@ public class UserService {
             }
 
     public void delete(int id) {
-        userRepo.deleteById(id);
+        userRepo.removeById(id);
+
     }
 
     public List<User> searchByUsername(String username) {

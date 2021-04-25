@@ -114,27 +114,33 @@ public class UserController {
 
         return ResponseEntity.badRequest().build();
     }
-    @DeleteMapping(path="/{id}")
+    @DeleteMapping()
     public @ResponseBody ResponseEntity<User>
-    deleteById(@PathVariable int id) {
-        User user = userService.readById(id);
-        if (user == null)
-            return ResponseEntity.notFound().build();
+    deleteById() {
+        userService.delete(9);
+        return new ResponseEntity<>(HttpStatus.OK);
 
-        if (isEmployee() || //if DELETE request is being made by employee OR
-                (isPatron()&& //DELETE request is being made by patron AND
-                        user.getUsername().equals(getRequesterUsername())))// patron is attempting to DELETE self
-                {
-            userService.delete(id);
-            return new ResponseEntity<>(user, HttpStatus.OK);
-        }
 
-        return ResponseEntity.badRequest().build();
+//        System.out.println(9);
+//        user,
+//        User user = userService.readById(9);
+//        if (user == null)
+//            return ResponseEntity.notFound().build();
+
+//        if (isAdmin()||isLibrarian()) {
+//            userService.delete(9);
+//            return new ResponseEntity<>(user, HttpStatus.OK);
+//        }
+
+//        return ResponseEntity.badRequest().build();
     }
-
-
+//    @PathVariable int id
+//    path="/{id}"
 
 
 
 
 }
+//|| //if DELETE request is being made by employee OR
+//        (isPatron()&& //DELETE request is being made by patron AND
+//        user.getUsername().equals(getRequesterUsername())))// patron is attempting to DELETE self
