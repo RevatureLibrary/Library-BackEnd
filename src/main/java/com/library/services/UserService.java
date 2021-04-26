@@ -95,7 +95,7 @@ public class UserService {
             }
 
     public void delete(int id) {
-        userRepo.removeById(id);
+        userRepo.deleteById(id);
 
     }
 

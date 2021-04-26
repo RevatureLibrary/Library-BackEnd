@@ -20,25 +20,28 @@ public class JwtRequestFilter extends OncePerRequestFilter {
 
     @Override
     protected void doFilterInternal(HttpServletRequest httpServletRequest, HttpServletResponse httpServletResponse, FilterChain filterChain) throws ServletException, IOException {
-        final String authorizeHeader = httpServletRequest.getHeader("Authorization");
+        if (!httpServletRequest.getMethod().equals("OPTIONS")) {
 
-        String  jwt;
+            final String authorizeHeader = httpServletRequest.getHeader("Authorization");
 
-        if(authorizeHeader != null && authorizeHeader.startsWith("Bearer ")){
-            jwt = authorizeHeader.substring(7);
-            try {
-                if(JWTUtil.validateToken(jwt)) {
-                    SecurityContextHolder.getContext()
-                            .setAuthentication(new UsernamePasswordAuthenticationToken(
-                                    JWTUtil.extractUsername(jwt),
-                                    null,
-                                    Collections.singleton(JWTUtil.extractAuthority(jwt))
-                            ));
+            String jwt;
+
+            if (authorizeHeader != null && authorizeHeader.startsWith("Bearer ")) {
+                jwt = authorizeHeader.substring(7);
+                try {
+                    if (JWTUtil.validateToken(jwt)) {
+                        SecurityContextHolder.getContext()
+                                .setAuthentication(new UsernamePasswordAuthenticationToken(
+                                        JWTUtil.extractUsername(jwt),
+                                        null,
+                                        Collections.singleton(JWTUtil.extractAuthority(jwt))
+                                ));
+                    }
+
+                } catch (ExpiredJwtException e) {
+                    httpServletResponse.sendError(403, "Login Expired");
+                    return;
                 }
-
-            } catch (ExpiredJwtException e) {
-                httpServletResponse.sendError(403, "Login Expired");
-                return;
             }
         }
         filterChain.doFilter(httpServletRequest,httpServletResponse);

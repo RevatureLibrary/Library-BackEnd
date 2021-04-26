@@ -114,11 +114,31 @@ public class UserController {
 
         return ResponseEntity.badRequest().build();
     }
-    @DeleteMapping()
+
+    @CrossOrigin(origins = "*")
+    @DeleteMapping(path="/{id}")
     public @ResponseBody ResponseEntity<User>
-    deleteById() {
-        userService.delete(9);
-        return new ResponseEntity<>(HttpStatus.OK);
+    deleteById(@PathVariable int id) {
+        User user = userService.readById(id);
+        if (user == null)
+            return ResponseEntity.notFound().build();
+
+        if (isEmployee() || //if DELETE request is being made by employee OR
+                (isPatron()&& //DELETE request is being made by patron AND
+                        user.getUsername().equals(getRequesterUsername())))// patron is attempting to DELETE self
+        {
+            userService.delete(id);
+            return new ResponseEntity<>(user, HttpStatus.OK);
+        }
+
+        return ResponseEntity.badRequest().build();
+    }
+
+//    @DeleteMapping()
+//    public @ResponseBody ResponseEntity<User>
+//    deleteById() {
+//        userService.delete(9);
+//        return new ResponseEntity<>(HttpStatus.OK);
 
 
 //        System.out.println(9);
@@ -133,7 +153,7 @@ public class UserController {
 //        }
 
 //        return ResponseEntity.badRequest().build();
-    }
+//    }
 //    @PathVariable int id
 //    path="/{id}"
 

@@ -20,6 +20,7 @@ import org.springframework.security.web.authentication.UsernamePasswordAuthentic
 import org.springframework.web.cors.CorsConfiguration;
 import org.springframework.web.cors.CorsConfigurationSource;
 import org.springframework.web.cors.UrlBasedCorsConfigurationSource;
+import org.springframework.web.servlet.config.annotation.CorsRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.util.Collections;
@@ -81,11 +82,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter implements WebM
     public PasswordEncoder passwordEncoder(){
         return new BCryptPasswordEncoder();
     }
-    @Bean
-    CorsConfigurationSource corsConfigurationSource() {
-        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
-        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
-        return source;
+//    @Bean
+
+//    CorsConfigurationSource corsConfigurationSource() {
+//        UrlBasedCorsConfigurationSource source = new UrlBasedCorsConfigurationSource();
+//        source.registerCorsConfiguration("/**", new CorsConfiguration().applyPermitDefaultValues());
+//        return source;
+//    }
+
+    @Override
+    public void addCorsMappings(CorsRegistry registry) {
+        registry.addMapping("/**").allowedOrigins("*").allowedMethods("GET", "POST","PUT", "DELETE","OPTIONS");
+
     }
 }
 
